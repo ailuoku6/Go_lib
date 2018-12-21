@@ -19,13 +19,8 @@ import android.widget.ImageView;
 
 import com.ailuoku6.golib.Adapter.NoticeAdapter;
 import com.ailuoku6.golib.Notice.Notice;
+import com.ailuoku6.golib.server.NoticeServer;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
-
-import org.jsoup.Connection;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -182,16 +177,8 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void run() {
                 try {
-
-                    String noticeUrl = "http://www.lib.wust.edu.cn/";
-                    Connection connection = Jsoup.connect(noticeUrl);
-                    connection.timeout(5*1000);
-                    Document document = connection.get();
-                    Elements elements = document.select("#gonggao").select("tr > td");
-                    for (Element e: elements) {
-                        Notice notice = new Notice(noticeUrl+e.select("a").attr("href"),e.select("a").text(),e.select("font").text());
-                        noticeList.add(notice);
-                    }
+                    NoticeServer noticeServer = new NoticeServer();
+                    noticeList = noticeServer.getNotice();
                     showNotice(context);
                 }catch (Exception e){
 
