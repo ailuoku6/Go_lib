@@ -1,17 +1,14 @@
 package com.ailuoku6.golib.Adapter;
 
-import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.ailuoku6.golib.Notice.Notice;
+import com.ailuoku6.golib.Model.Notice;
 import com.ailuoku6.golib.R;
 
 import java.util.List;

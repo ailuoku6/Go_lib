@@ -1,6 +1,6 @@
 package com.ailuoku6.golib.server;
 
-import com.ailuoku6.golib.Notice.Notice;
+import com.ailuoku6.golib.Model.Notice;
 
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;

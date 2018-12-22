@@ -18,7 +18,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.ailuoku6.golib.Adapter.NoticeAdapter;
-import com.ailuoku6.golib.Notice.Notice;
+import com.ailuoku6.golib.Model.Notice;
 import com.ailuoku6.golib.server.NoticeServer;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 

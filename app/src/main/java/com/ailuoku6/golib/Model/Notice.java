@@ -1,4 +1,4 @@
-package com.ailuoku6.golib.Notice;
+package com.ailuoku6.golib.Model;
 
 public class Notice {
     private String subTitle;
