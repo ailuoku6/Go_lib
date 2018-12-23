@@ -38,14 +38,10 @@
             android:label="@string/title_activity_login">
             <intent-filter>
                 <action android:name="com.ailuoku6.golib.LOGIN" />
-
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
 
-        <!--<meta-data-->
-            <!--android:name="com.google.android.actions"-->
-            <!--android:resource="@xml/progress_bg" />-->
     </application>
 
 </manifest>

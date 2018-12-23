@@ -11,8 +11,7 @@
         style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
         android:layout_width="match_parent"
         android:progressDrawable="@drawable/progress_bg"
-        android:layout_height="3dp"
-        />
+        android:layout_height="3dp" />
 
     <WebView
         android:layout_width="match_parent"
