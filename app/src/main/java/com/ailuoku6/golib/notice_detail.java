@@ -2,13 +2,20 @@ package com.ailuoku6.golib;
 
 import android.app.ActionBar;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.webkit.WebChromeClient;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import android.widget.ProgressBar;
 
 public class notice_detail extends AppCompatActivity {
+
+    private SlowlyProgressBar slowlyProgressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,12 +26,36 @@ public class notice_detail extends AppCompatActivity {
         //actionBar.setIcon(R.mipmap.ic_launcher);
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
+
+        slowlyProgressBar = new SlowlyProgressBar((ProgressBar) findViewById(R.id.ProgressBar));
+
         WebView webView = (WebView) findViewById(R.id.web_detail);
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setSupportZoom(true);
         webView.getSettings().setBuiltInZoomControls(true);
         Intent intent = getIntent();
         String url = intent.getStringExtra("url");
+
+        webView.setWebViewClient(new WebViewClient(){
+            @Override
+            public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                slowlyProgressBar.onProgressStart();
+            }
+
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+                return true;
+            }
+        });
+
+        webView.setWebChromeClient(new WebChromeClient() {
+
+            @Override
+            public void onProgressChanged(WebView view, int newProgress) {
+                slowlyProgressBar.onProgressChange(newProgress);
+            }
+        });
+
         webView.loadUrl(url);
     }
 
@@ -37,5 +68,14 @@ public class notice_detail extends AppCompatActivity {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        if(slowlyProgressBar!=null){
+            slowlyProgressBar.destroy();
+            slowlyProgressBar = null;
+        }
     }
 }
