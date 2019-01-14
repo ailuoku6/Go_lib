@@ -75,8 +75,12 @@ public class MainActivity extends AppCompatActivity
         searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                Snackbar.make(findViewById(R.id.drawer_layout), "Query: " + query, Snackbar.LENGTH_LONG).show();
-                return false;
+                Intent intent = new Intent("com.ailuoku6.golib.Search_Result");
+                intent.addCategory("android.intent.category.DEFAULT");
+                intent.putExtra("keyword",query);
+                searchView.closeSearch();
+                startActivity(intent);
+                return true;
             }
 
             @Override

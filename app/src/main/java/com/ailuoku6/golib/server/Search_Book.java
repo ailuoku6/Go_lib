@@ -15,6 +15,7 @@ import java.util.List;
 
 public class Search_Book {
     private String Api = "http://www.lib.wust.edu.cn:8780/opac/openlink.php";
+
     private List<Book> books;
 
     public Search_Book(){
@@ -32,9 +33,13 @@ public class Search_Book {
         document = response.parse();
         Elements elements = document.select(".book_list_info");
         for (Element e : elements) {
+
+            Element text1 = e.select("p > span").get(0);
+            Element text2 = e.select("p").get(0);
+
             Book book = new Book(e.select("b").text()+e.select("h3").text(),e.select("h3 > a").attr("href"),
-                    e.select("p > span").eachText().get(0),e.select("p > span").eachText().get(1),
-                    e.select("p").eachText().get(0),e.select("p").eachText().get(1));
+                    text1.childNode(0).toString(),text1.childNode(1).toString(),
+                    text2.childNode(0).toString(),text2.childNode(1).toString());
             books.add(book);
         }
         return books;
