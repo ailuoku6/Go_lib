@@ -7,14 +7,11 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 
-import com.ailuoku6.golib.Api.ApiUrl;
 import com.ailuoku6.golib.Model.Login_State;
 import com.ailuoku6.golib.server.Login;
 import com.ailuoku6.golib.server.getPatcha;
@@ -31,7 +28,7 @@ public class LoginActivity extends AppCompatActivity {
     private Button login;
     private Login login_;
     private getPatcha patcha;
-    private Map<String,String> cookies = new HashMap<>();
+    //private Map<String,String> cookies = new HashMap<>();
     private Login_State loginState;
     //private Context context;
 
@@ -71,7 +68,7 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         try {
-                            loginState = login_.LogIn(user_name.getText().toString(),password.getText().toString(),vericode.getText().toString(),cookies);
+                            loginState = login_.LogIn(user_name.getText().toString(),password.getText().toString(),vericode.getText().toString(),CookiesManage.cookies);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -79,6 +76,8 @@ public class LoginActivity extends AppCompatActivity {
                 });
 
                 th.start();
+
+                //预留进度条代码位置
 
                 try {
                     th.join();
@@ -115,7 +114,7 @@ public class LoginActivity extends AppCompatActivity {
             public void run() {
                 try {
                     login_.GETform();
-                    cookies = login_.getCookies();
+                    CookiesManage.cookies = login_.getCookies();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -156,7 +155,7 @@ public class LoginActivity extends AppCompatActivity {
                 byte[] data = new byte[0];
 
                 try {
-                    data = patcha.updataCha(cookies);
+                    data = patcha.updataCha(CookiesManage.cookies);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

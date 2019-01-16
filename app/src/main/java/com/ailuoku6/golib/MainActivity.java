@@ -104,9 +104,15 @@ public class MainActivity extends AppCompatActivity
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent("com.ailuoku6.golib.LOGIN");
-                intent.addCategory("android.intent.category.DEFAULT");
-                startActivity(intent);
+                if(true){
+                    Intent intent = new Intent("com.ailuoku6.golib.USERDETAIL");
+                    intent.addCategory("android.intent.category.DEFAULT");
+                    startActivity(intent);
+                }else {
+                    Intent intent = new Intent("com.ailuoku6.golib.LOGIN");
+                    intent.addCategory("android.intent.category.DEFAULT");
+                    startActivity(intent);
+                }
             }
         });
     }
