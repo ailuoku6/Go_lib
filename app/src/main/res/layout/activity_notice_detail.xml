@@ -6,17 +6,27 @@
     android:layout_height="match_parent"
     tools:context=".notice_detail">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/Notice_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
+        app:popupTheme="@style/AppTheme.PopupOverlay"
+        app:titleTextColor="@color/titleColor" />
+
     <ProgressBar
         android:id="@+id/ProgressBar"
         style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
         android:layout_width="match_parent"
         android:progressDrawable="@drawable/progress_bg"
-        android:layout_height="3dp" />
+        android:layout_height="3dp"
+        app:layout_constraintTop_toBottomOf="@id/Notice_toolbar"/>
 
     <WebView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/web_detail">
+        android:layout_height="wrap_content"
+        android:id="@+id/web_detail"
+        app:layout_constraintTop_toBottomOf="@id/Notice_toolbar">
     </WebView>
 
 </android.support.constraint.ConstraintLayout>

@@ -11,8 +11,9 @@ public class userInfo {
     private String borrowTime;
     private String breakrulesTime;
     private String debt;
+    private String StateCode;
 
-    public userInfo(String userName, String prifileStart, String prifileEnd, String fiveDay_out, String out_dateBook, String maxBookNum, String userType, String borrowTime, String breakrulesTime, String debt) {
+    public userInfo(String userName, String prifileStart, String prifileEnd, String fiveDay_out, String out_dateBook, String maxBookNum, String userType, String borrowTime, String breakrulesTime, String debt,String StateCode) {
         this.userName = userName;
         this.prifileStart = prifileStart;
         PrifileEnd = prifileEnd;
@@ -23,6 +24,7 @@ public class userInfo {
         this.borrowTime = borrowTime;
         this.breakrulesTime = breakrulesTime;
         this.debt = debt;
+        this.StateCode = StateCode;
     }
 
     public String getUserName() {
@@ -65,6 +67,10 @@ public class userInfo {
         return debt;
     }
 
+    public String getStateCode() {
+        return StateCode;
+    }
+
     public void setUserName(String userName) {
         this.userName = userName;
     }
@@ -103,5 +109,9 @@ public class userInfo {
 
     public void setDebt(String debt) {
         this.debt = debt;
+    }
+
+    public void setStateCode(String stateCode) {
+        StateCode = stateCode;
     }
 }

@@ -1,5 +1,6 @@
 package com.ailuoku6.golib.server;
 
+import com.ailuoku6.golib.Api.ApiUrl;
 import com.ailuoku6.golib.Model.Book;
 import com.ailuoku6.golib.Model.MuseumCollection;
 
@@ -14,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Search_Book {
-    private String Api = "http://www.lib.wust.edu.cn:8780/opac/openlink.php";
+    private String Api = ApiUrl.SEARCH_BOOK;
 
     private List<Book> books;
 
@@ -37,9 +38,9 @@ public class Search_Book {
             Element text1 = e.select("p > span").get(0);
             Element text2 = e.select("p").get(0);
 
-            Book book = new Book(e.select("b").text()+e.select("h3").text(),e.select("h3 > a").attr("href"),
-                    text1.childNode(0).toString(),text1.childNode(1).toString(),
-                    text2.childNode(0).toString(),text2.childNode(1).toString());
+            Book book = new Book(e.select("h3 > *:not(span)").text(),e.select("h3 > a").attr("href"),
+                    text1.childNode(0).toString(),text1.childNode(2).toString()+" ",
+                    text2.childNode(2).toString(),text2.childNode(4).toString().replace("&nbsp;"," "));
             books.add(book);
         }
         return books;

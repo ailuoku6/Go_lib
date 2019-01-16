@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
@@ -16,16 +17,23 @@ import android.widget.ProgressBar;
 public class notice_detail extends AppCompatActivity {
 
     private SlowlyProgressBar slowlyProgressBar;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notice_detail);
         //ActionBar actionBar = getActionBar();
-        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
-        //actionBar.setIcon(R.mipmap.ic_launcher);
-        actionBar.setHomeButtonEnabled(true);
-        actionBar.setDisplayHomeAsUpEnabled(true);
+        toolbar = (Toolbar) findViewById(R.id.Notice_toolbar);
+        toolbar.setTitle("公告详情");
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         slowlyProgressBar = new SlowlyProgressBar((ProgressBar) findViewById(R.id.ProgressBar));
 

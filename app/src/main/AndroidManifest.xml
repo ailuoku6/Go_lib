@@ -33,22 +33,26 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".LoginActivity"
-            android:label="@string/title_activity_login">
+        <activity android:name=".Search_result">
+            <intent-filter>
+                <action android:name="com.ailuoku6.golib.Search_Result" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="com.ailuoku6.golib.LOGIN" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".Search_result">
+        <activity android:name=".Spider_text">
             <intent-filter>
-                <action android:name="com.ailuoku6.golib.Search_Result"/>
-
+                <action android:name="com.ailuoku6.golib.SPIDER"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
+
         </activity>
     </application>
 

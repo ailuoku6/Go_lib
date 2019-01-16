@@ -1,5 +1,6 @@
 package com.ailuoku6.golib.Adapter;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -7,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.ailuoku6.golib.Api.ApiUrl;
 import com.ailuoku6.golib.Model.Book;
 import com.ailuoku6.golib.R;
 
@@ -45,7 +47,12 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.ViewHolder> 
         viewHolder.BookView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                int position = viewHolder.getAdapterPosition();
+                Book book = bookList.get(position);
+                Intent intent = new Intent("com.ailuoku6.golib.NOTICE_DETAIL");
+                intent.addCategory("android.intent.category.DEFAULT");
+                intent.putExtra("url",ApiUrl.SEARCHBOOK_BASE+book.getDetailLink());
+                v.getContext().startActivity(intent);
             }
         });
         return viewHolder;

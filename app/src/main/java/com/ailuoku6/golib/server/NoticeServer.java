@@ -1,5 +1,6 @@
 package com.ailuoku6.golib.server;
 
+import com.ailuoku6.golib.Api.ApiUrl;
 import com.ailuoku6.golib.Model.Notice;
 
 import org.jsoup.Connection;
@@ -13,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NoticeServer {
-    private String ApiUrl = "http://www.lib.wust.edu.cn/";
+    private String Api = ApiUrl.LIB_HOME;
     private List<Notice> noticeList;
 
     public NoticeServer(){
@@ -21,12 +22,12 @@ public class NoticeServer {
     }
 
     public List<Notice> getNotice() throws IOException {
-        Connection connection = Jsoup.connect(ApiUrl);
+        Connection connection = Jsoup.connect(Api);
         connection.timeout(5*1000);
         Document document = connection.get();
         Elements elements = document.select("#gonggao").select("tr > td");
         for (Element e: elements) {
-            Notice notice = new Notice(ApiUrl+e.select("a").attr("href"),e.select("a").text(),e.select("font").text());
+            Notice notice = new Notice(Api+e.select("a").attr("href"),e.select("a").text(),e.select("font").text());
             noticeList.add(notice);
         }
         return noticeList;

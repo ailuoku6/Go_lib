@@ -1,5 +1,9 @@
 package com.ailuoku6.golib.server;
 
+import android.util.Log;
+
+import com.ailuoku6.golib.Api.ApiUrl;
+
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 
@@ -7,24 +11,28 @@ import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 
+import static android.support.constraint.Constraints.TAG;
+
 
 public class getPatcha {
-    private Map cookies;
-    private String url = "http://www.lib.wust.edu.cn:8780/reader/captcha.php";
+    private String url = ApiUrl.GETPATCHA;
 
-    public getPatcha(Map cookies){
-        this.cookies = cookies;
+    public getPatcha(){
     }
 
-    public void updataCha() throws IOException {
+    public byte[] updataCha(Map<String,String> cookies) throws IOException {
         Map<String,String> head = new HashMap<>();
         Connection connection = Jsoup.connect(url+"?"+Math.random());
         connection.timeout(5*1000)
                 .method(Connection.Method.GET);
         Connection.Response res = connection.ignoreContentType(true).cookies(cookies).execute();
         byte[] img = res.bodyAsBytes();
-        System.out.println("from getcha:"+res.headers());
+        //System.out.println("from getcha:"+res.headers());
         //savaImage(img,"test.png");
+
+        Log.d(TAG, "updataCha: run here");
+
+        return img;
     }
 //    public static void savaImage(byte[] img, String fileName) {
 //        BufferedOutputStream bos = null;
