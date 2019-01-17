@@ -3,6 +3,7 @@ package com.ailuoku6.golib.server;
 import android.util.Log;
 
 import com.ailuoku6.golib.Api.ApiUrl;
+import com.ailuoku6.golib.CookiesManage;
 
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
@@ -20,10 +21,20 @@ public class getPatcha {
     public getPatcha(){
     }
 
-    public byte[] updataCha(Map<String,String> cookies) throws IOException {
-        Map<String,String> head = new HashMap<>();
+    public byte[] FirstUpdataCha() throws IOException {
         Connection connection = Jsoup.connect(url+"?"+Math.random());
-        connection.timeout(5*1000)
+        connection.timeout(6*1000)
+                .method(Connection.Method.GET);
+        Connection.Response res = connection.ignoreContentType(true).execute();
+        byte[] img = res.bodyAsBytes();
+        CookiesManage.cookies = res.cookies();
+        return img;
+    }
+
+    public byte[] updataCha(Map<String,String> cookies) throws IOException {
+        //Map<String,String> head = new HashMap<>();
+        Connection connection = Jsoup.connect(url+"?"+Math.random());
+        connection.timeout(6*1000)
                 .method(Connection.Method.GET);
         Connection.Response res = connection.ignoreContentType(true).cookies(cookies).execute();
         byte[] img = res.bodyAsBytes();
@@ -34,41 +45,5 @@ public class getPatcha {
 
         return img;
     }
-//    public static void savaImage(byte[] img, String fileName) {
-//        BufferedOutputStream bos = null;
-//        FileOutputStream fos = null;
-//        File file = null;
-//        try {
-//            file = new File(fileName);
-//            fos = new FileOutputStream(file);
-//            bos = new BufferedOutputStream(fos);
-//            bos.write(img);
-//        } catch (FileNotFoundException e) {
-//            // TODO Auto-generated catch block
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            // TODO Auto-generated catch block
-//            e.printStackTrace();
-//        } finally {
-//            if (bos != null) {
-//                try {
-//                    bos.close();
-//                } catch (IOException e) {
-//                    // TODO Auto-generated catch block
-//                    e.printStackTrace();
-//                }
-//            }
-//            if (fos != null) {
-//                try {
-//                    fos.close();
-//                } catch (IOException e) {
-//                    // TODO Auto-generated catch block
-//                    e.printStackTrace();
-//                }
-//            }
-//        }
-//
-//    }
-
 
 }

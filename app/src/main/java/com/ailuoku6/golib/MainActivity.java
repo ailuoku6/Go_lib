@@ -1,8 +1,11 @@
 package com.ailuoku6.golib;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -29,8 +32,23 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private MaterialSearchView searchView;
+    private final int SHOENOTICE = 1;
 
     private List<Notice> noticeList = new ArrayList<>();
+
+    @SuppressLint("HandlerLeak")
+    private Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            //super.handleMessage(msg);
+            switch (msg.what){
+                case SHOENOTICE:
+                    showNotice();
+                    break;
+                default:break;
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,15 +57,6 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("武科大图书馆");
         setSupportActionBar(toolbar);
-
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -62,15 +71,6 @@ public class MainActivity extends AppCompatActivity
         ImageView imageView = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.imageView);
 
         searchView = (MaterialSearchView) findViewById(R.id.search_view);
-
-        initData(this);
-
-//        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rececle_view);
-//        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-//        recyclerView.setLayoutManager(layoutManager);
-//        NoticeAdapter noticeAdapter = new NoticeAdapter(noticeList);
-//
-//        recyclerView.setAdapter(noticeAdapter);
 
         searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
             @Override
@@ -118,6 +118,12 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        initData();
+    }
+
+    @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
@@ -139,20 +145,6 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        // Handle action bar item clicks here. The action bar will
-//        // automatically handle clicks on the Home/Up button, so long
-//        // as you specify a parent activity in AndroidManifest.xml.
-//        int id = item.getItemId();
-//
-//        //noinspection SimplifiableIfStatement
-//        if (id == R.id.action_settings) {
-//            return true;
-//        }
-//
-//        return super.onOptionsItemSelected(item);
-//    }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -181,7 +173,7 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    private void initData(final Context context) {
+    private void initData() {
 
         new Thread(new Runnable() {
             @Override
@@ -189,7 +181,10 @@ public class MainActivity extends AppCompatActivity
                 try {
                     NoticeServer noticeServer = new NoticeServer();
                     noticeList = noticeServer.getNotice();
-                    showNotice(context);
+                    Message message = new Message();
+                    message.what = SHOENOTICE;
+                    //message.obj = noticeList;
+                    handler.sendMessage(message);
                 }catch (Exception e){
 
                 }finally {
@@ -200,18 +195,12 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    private void showNotice(final Context context){
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rececle_view);
-                LinearLayoutManager layoutManager = new LinearLayoutManager(context);
-                recyclerView.setLayoutManager(layoutManager);
-                NoticeAdapter noticeAdapter = new NoticeAdapter(noticeList);
-
-                recyclerView.setAdapter(noticeAdapter);
-            }
-        });
+    private void showNotice(){
+            RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rececle_view);
+            LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+            recyclerView.setLayoutManager(layoutManager);
+            NoticeAdapter noticeAdapter = new NoticeAdapter(noticeList);
+            recyclerView.setAdapter(noticeAdapter);
     }
 
 }

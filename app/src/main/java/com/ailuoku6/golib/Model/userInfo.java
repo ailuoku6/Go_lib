@@ -11,20 +11,22 @@ public class userInfo {
     private String borrowTime;
     private String breakrulesTime;
     private String debt;
-    private String StateCode;
 
-    public userInfo(String userName, String prifileStart, String prifileEnd, String fiveDay_out, String out_dateBook, String maxBookNum, String userType, String borrowTime, String breakrulesTime, String debt,String StateCode) {
-        this.userName = userName;
-        this.prifileStart = prifileStart;
-        PrifileEnd = prifileEnd;
-        this.fiveDay_out = fiveDay_out;
-        this.out_dateBook = out_dateBook;
-        this.maxBookNum = maxBookNum;
-        this.userType = userType;
-        this.borrowTime = borrowTime;
-        this.breakrulesTime = breakrulesTime;
-        this.debt = debt;
-        this.StateCode = StateCode;
+//    public userInfo(String userName, String prifileStart, String prifileEnd, String fiveDay_out, String out_dateBook, String maxBookNum, String userType, String borrowTime, String breakrulesTime, String debt) {
+//        this.userName = userName;
+//        this.prifileStart = prifileStart;
+//        PrifileEnd = prifileEnd;
+//        this.fiveDay_out = fiveDay_out;
+//        this.out_dateBook = out_dateBook;
+//        this.maxBookNum = maxBookNum;
+//        this.userType = userType;
+//        this.borrowTime = borrowTime;
+//        this.breakrulesTime = breakrulesTime;
+//        this.debt = debt;
+//    }
+
+    public userInfo(){
+
     }
 
     public String getUserName() {
@@ -67,9 +69,6 @@ public class userInfo {
         return debt;
     }
 
-    public String getStateCode() {
-        return StateCode;
-    }
 
     public void setUserName(String userName) {
         this.userName = userName;
@@ -111,7 +110,4 @@ public class userInfo {
         this.debt = debt;
     }
 
-    public void setStateCode(String stateCode) {
-        StateCode = stateCode;
-    }
 }

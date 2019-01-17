@@ -1,8 +1,11 @@
 package com.ailuoku6.golib;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Handler;
+import android.os.Message;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,8 +20,6 @@ import com.ailuoku6.golib.server.Login;
 import com.ailuoku6.golib.server.getPatcha;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -30,7 +31,22 @@ public class LoginActivity extends AppCompatActivity {
     private getPatcha patcha;
     //private Map<String,String> cookies = new HashMap<>();
     private Login_State loginState;
+    private final int UPDATA_PATCHA = 1;
     //private Context context;
+
+    @SuppressLint("HandlerLeak")
+    private Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            //super.handleMessage(msg);
+            switch (msg.what){
+                case UPDATA_PATCHA:
+                    Verimage.setImageBitmap((Bitmap) msg.obj);
+                    break;
+                default:break;
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,12 +69,6 @@ public class LoginActivity extends AppCompatActivity {
         login = (Button) findViewById(R.id.login);
 
         login_ = new Login();
-
-        try {
-            InitData();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,45 +115,39 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        try {
+            InitData();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void InitData() throws InterruptedException {
-
-        //InitForm();
-
-        Thread th =  new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    login_.GETform();
-                    CookiesManage.cookies = login_.getCookies();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
-        th.start();
-
-        th.join();
 
         patcha = new getPatcha();
 
-        Updata_patcha();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try{
+                    byte[] data = new byte[0];
+                    data = patcha.FirstUpdataCha();
+                    Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
+                    Message message = new Message();
+                    message.what = UPDATA_PATCHA;
+                    message.obj = bitmap;
+                    handler.sendMessage(message);
+                }catch (IOException e){
+                    e.printStackTrace();
+                }
+            }
+        }).start();
 
     }
 
-//    public void InitForm(){
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                try {
-//                    login_.GETform();
-//                    cookies = login_.getCookies();
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }).start();
-//    }
 
     public void Updata_patcha(){
 
@@ -151,24 +155,17 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void run() {
-
-                byte[] data = new byte[0];
-
                 try {
+                    byte[] data = new byte[0];
                     data = patcha.updataCha(CookiesManage.cookies);
+                    Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
+                    Message message = new Message();
+                    message.what = UPDATA_PATCHA;
+                    message.obj = bitmap;
+                    handler.sendMessage(message);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-
-                final Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
-
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Verimage.setImageBitmap(bitmap);
-                    }
-                });
-
             }
         }).start();
 
