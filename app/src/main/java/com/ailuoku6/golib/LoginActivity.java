@@ -133,7 +133,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void run() {
                 try{
-                    byte[] data = new byte[0];
+                    byte[] data;
                     data = patcha.FirstUpdataCha();
                     Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
                     Message message = new Message();
@@ -156,7 +156,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void run() {
                 try {
-                    byte[] data = new byte[0];
+                    byte[] data;
                     data = patcha.updataCha(CookiesManage.cookies);
                     Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
                     Message message = new Message();
