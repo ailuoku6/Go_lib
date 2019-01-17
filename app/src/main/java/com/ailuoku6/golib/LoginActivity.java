@@ -30,8 +30,9 @@ public class LoginActivity extends AppCompatActivity {
     private Login login_;
     private getPatcha patcha;
     //private Map<String,String> cookies = new HashMap<>();
-    private Login_State loginState;
+    //private Login_State loginState;
     private final int UPDATA_PATCHA = 1;
+    private final int JUDGE_STATE = 2;
     //private Context context;
 
     @SuppressLint("HandlerLeak")
@@ -42,6 +43,9 @@ public class LoginActivity extends AppCompatActivity {
             switch (msg.what){
                 case UPDATA_PATCHA:
                     Verimage.setImageBitmap((Bitmap) msg.obj);
+                    break;
+                case JUDGE_STATE:
+                    Judge_state((Login_State) msg.obj);
                     break;
                 default:break;
             }
@@ -74,34 +78,41 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(final View v) {
 
-                Thread th = new Thread(new Runnable() {
+//                Thread th = new Thread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        try {
+//                            loginState = login_.LogIn(user_name.getText().toString(),password.getText().toString(),vericode.getText().toString(),CookiesManage.cookies);
+//                        } catch (IOException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                });
+//
+//                th.start();
+
+                //预留进度条代码位置
+
+//                try {
+//                    th.join();
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+
+                new Thread(new Runnable() {
                     @Override
                     public void run() {
                         try {
-                            loginState = login_.LogIn(user_name.getText().toString(),password.getText().toString(),vericode.getText().toString(),CookiesManage.cookies);
+                            Login_State loginState = login_.LogIn(user_name.getText().toString(),password.getText().toString(),vericode.getText().toString(),CookiesManage.cookies);
+                            Message message = new Message();
+                            message.what = JUDGE_STATE;
+                            message.obj = loginState;
+                            handler.sendMessage(message);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
                     }
-                });
-
-                th.start();
-
-                //预留进度条代码位置
-
-                try {
-                    th.join();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-
-                if(loginState.getIslog()){
-                    Snackbar.make(v, "scu", Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
-                }else {
-                    Snackbar.make(v, loginState.getERRORINFO(), Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
-                }
+                }).start();
 
             }
         });
@@ -169,5 +180,17 @@ public class LoginActivity extends AppCompatActivity {
             }
         }).start();
 
+    }
+
+    public void Judge_state(Login_State loginState){
+        if(loginState.getIslog()){
+            Snackbar.make(findViewById(R.id.LOGIN_ACTIVITY), "scu", Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show();
+        }else {
+            Snackbar.make(findViewById(R.id.LOGIN_ACTIVITY), loginState.getERRORINFO(), Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show();
+        }
+//        Snackbar.make(this, loginState.getERRORINFO(), Snackbar.LENGTH_LONG)
+//                    .setAction("Action", null).show();
     }
 }
