@@ -1,27 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:id="@+id/Search_result_view"
     tools:context=".Search_result">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/result_toolbar"
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        app:popupTheme="@style/AppTheme.PopupOverlay"
-        app:titleTextColor="@color/titleColor" />
+        android:layout_height="0dp"
+        android:layout_weight="8">
 
-    <android.support.v7.widget.RecyclerView
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/result_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            app:titleTextColor="@color/titleColor"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/Books_list"
+            app:layout_constraintTop_toBottomOf="@+id/result_toolbar"
+            android:layout_marginTop="?attr/actionBarSize">
+        </android.support.v7.widget.RecyclerView>
+
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.v7.widget.LinearLayoutCompat
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/Books_list"
-        app:layout_constraintTop_toBottomOf="@+id/result_toolbar"
-        android:layout_marginTop="10dp">
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center_vertical|center_horizontal">
 
-    </android.support.v7.widget.RecyclerView>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="pre"
+            android:id="@+id/pre"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:id="@+id/num_pages"
+            android:textAlignment="center"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="next"
+            android:id="@+id/next"
+            />
+
+    </android.support.v7.widget.LinearLayoutCompat>
 
 
-</android.support.constraint.ConstraintLayout>
+</android.support.v7.widget.LinearLayoutCompat>

@@ -5,26 +5,41 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ailuoku6.golib.Adapter.BooksAdapter;
+import com.ailuoku6.golib.Api.ApiUrl;
 import com.ailuoku6.golib.Model.Book;
+import com.ailuoku6.golib.Model.Search_pages;
 import com.ailuoku6.golib.server.Search_Book;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.net.URLEncoder;
 
 public class Search_result extends AppCompatActivity {
 
-    List<Book> bookList = new ArrayList<>();
+    //List<Book> bookList = new ArrayList<>();
     private String keyword;
     private final int SHOWRESULT = 1;
+    private Search_pages searchPages;
+    private TextView pages_index;
+    private String preUrl;
+    private String nextUrl;
+    private Button pre;
+    private Button next;
+    private Search_Book searchBook;
 
     @SuppressLint("HandlerLeak")
     private Handler handler = new Handler(){
@@ -33,7 +48,7 @@ public class Search_result extends AppCompatActivity {
             //super.handleMessage(msg);
             switch (msg.what){
                 case SHOWRESULT:
-                    ShowResult((List<Book>) msg.obj);
+                    ShowResult((Search_pages) msg.obj);
                     break;
                 default:break;
             }
@@ -57,12 +72,72 @@ public class Search_result extends AppCompatActivity {
             }
         });
 
+        searchBook = new Search_Book();
+
+        pages_index = (TextView) findViewById(R.id.num_pages);
+        pre = (Button) findViewById(R.id.pre);
+        next = (Button) findViewById(R.id.next);
+
+        pre.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(preUrl!=""){
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            //Search_Book searchBook = new Search_Book();
+                            try {
+                                //String DecodeKey = URLEncoder.encode(keyword,"UTF-8");
+                                searchPages = searchBook.GetpageByUrl(ApiUrl.SEARCH_BOOK+preUrl);
+                                Message message = new Message();
+                                message.what = SHOWRESULT;
+                                message.obj = searchPages;
+                                handler.sendMessage(message);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }).start();
+                    //Snackbar.make(findViewById(R.id.Search_result_view),preUrl,3000).setAction("Action", null).show();
+                }else {
+                    Snackbar.make(findViewById(R.id.Search_result_view),"no pre",3000).setAction("Action", null).show();
+                }
+            }
+        });
+
+        next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(nextUrl!=""){
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            //Search_Book searchBook = new Search_Book();
+                            try {
+                                //String DecodeKey = URLEncoder.encode(keyword,"UTF-8");
+                                searchPages = searchBook.GetpageByUrl(ApiUrl.SEARCH_BOOK+nextUrl);
+                                Message message = new Message();
+                                message.what = SHOWRESULT;
+                                message.obj = searchPages;
+                                handler.sendMessage(message);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }).start();
+                    //Snackbar.make(findViewById(R.id.Search_result_view),nextUrl,3000).setAction("Action", null).show();
+                }else {
+                    Snackbar.make(findViewById(R.id.Search_result_view),"no next",3000).setAction("Action", null).show();
+                }
+            }
+        });
+
+        InitData(this,keyword);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        InitData(this,keyword);
     }
 
     private void InitData(final Context context, final String keyword){
@@ -70,12 +145,13 @@ public class Search_result extends AppCompatActivity {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                Search_Book searchBook = new Search_Book();
+                //Search_Book searchBook = new Search_Book();
                 try {
-                    bookList = searchBook.GetBooks(keyword);
+                    //String DecodeKey = URLEncoder.encode(keyword,"UTF-8");
+                    searchPages = searchBook.GetSearch_page(keyword);
                     Message message = new Message();
                     message.what = SHOWRESULT;
-                    message.obj = bookList;
+                    message.obj = searchPages;
                     handler.sendMessage(message);
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -84,11 +160,14 @@ public class Search_result extends AppCompatActivity {
         }).start();
     }
 
-    private void ShowResult(List<Book> bookList){
+    private void ShowResult(Search_pages search_pages){
             RecyclerView recyclerView = (RecyclerView) findViewById(R.id.Books_list);
             LinearLayoutManager layoutManager = new LinearLayoutManager(this);
             recyclerView.setLayoutManager(layoutManager);
-            BooksAdapter booksAdapter = new BooksAdapter(bookList);
+            BooksAdapter booksAdapter = new BooksAdapter(search_pages.getBooks());
             recyclerView.setAdapter(booksAdapter);
+            pages_index.setText(search_pages.getNum_pages());
+            preUrl = search_pages.getPre();
+            nextUrl = search_pages.getNext();
     }
 }

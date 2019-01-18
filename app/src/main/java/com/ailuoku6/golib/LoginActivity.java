@@ -2,6 +2,7 @@ package com.ailuoku6.golib;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Handler;
@@ -18,6 +19,7 @@ import android.widget.ImageView;
 import com.ailuoku6.golib.Model.Login_State;
 import com.ailuoku6.golib.server.Login;
 import com.ailuoku6.golib.server.getPatcha;
+import com.google.gson.Gson;
 
 import java.io.IOException;
 
@@ -136,6 +138,12 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+    }
+
     public void InitData() throws InterruptedException {
 
         patcha = new getPatcha();
@@ -186,6 +194,8 @@ public class LoginActivity extends AppCompatActivity {
         if(loginState.getIslog()){
             Snackbar.make(findViewById(R.id.LOGIN_ACTIVITY), "scu", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show();
+            CookiesManage.IsLoged = true;
+            SaveCookies();
         }else {
             Snackbar.make(findViewById(R.id.LOGIN_ACTIVITY), loginState.getERRORINFO(), Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show();
@@ -193,4 +203,18 @@ public class LoginActivity extends AppCompatActivity {
 //        Snackbar.make(this, loginState.getERRORINFO(), Snackbar.LENGTH_LONG)
 //                    .setAction("Action", null).show();
     }
+
+    public void SaveCookies(){
+        SharedPreferences sp = this.getSharedPreferences("data", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        try {
+            Gson gson = new Gson();
+            String json = gson.toJson(CookiesManage.cookies);
+            editor.putString("cookies", json);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        editor.apply();
+    }
+
 }

@@ -3,6 +3,7 @@ package com.ailuoku6.golib;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -23,6 +24,7 @@ import android.widget.ImageView;
 import com.ailuoku6.golib.Adapter.NoticeAdapter;
 import com.ailuoku6.golib.Model.Notice;
 import com.ailuoku6.golib.server.NoticeServer;
+import com.google.gson.Gson;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import java.util.ArrayList;
@@ -121,6 +123,7 @@ public class MainActivity extends AppCompatActivity
     protected void onStart() {
         super.onStart();
         initData();
+        ReadCookies();
     }
 
     @Override
@@ -155,7 +158,9 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_camera) {
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
-
+//            Intent intent = new Intent("com.ailuoku6.golib.MYBORROW");
+//            intent.addCategory("android.intent.category.DEFAULT");
+//            startActivity(intent);
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_manage) {
@@ -201,6 +206,15 @@ public class MainActivity extends AppCompatActivity
             recyclerView.setLayoutManager(layoutManager);
             NoticeAdapter noticeAdapter = new NoticeAdapter(noticeList);
             recyclerView.setAdapter(noticeAdapter);
+    }
+
+    public void ReadCookies(){
+        SharedPreferences sp = this.getSharedPreferences("data", Context.MODE_PRIVATE);
+        String json = sp.getString("cookies", "");
+        Gson gson = new Gson();
+        if(CookiesManage.cookies!=null){
+            CookiesManage.cookies = gson.fromJson(json, CookiesManage.cookies.getClass());
+        }
     }
 
 }

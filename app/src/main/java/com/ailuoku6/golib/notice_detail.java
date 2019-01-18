@@ -60,7 +60,9 @@ public class notice_detail extends AppCompatActivity {
 
             @Override
             public void onProgressChanged(WebView view, int newProgress) {
-                slowlyProgressBar.onProgressChange(newProgress);
+                if((Object)newProgress!=null){
+                    slowlyProgressBar.onProgressChange(newProgress);
+                }
             }
         });
 
