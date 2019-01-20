@@ -60,8 +60,10 @@ public class notice_detail extends AppCompatActivity {
 
             @Override
             public void onProgressChanged(WebView view, int newProgress) {
-                if((Object)newProgress!=null){
+                try{
                     slowlyProgressBar.onProgressChange(newProgress);
+                }catch (Exception e){
+                    e.printStackTrace();
                 }
             }
         });

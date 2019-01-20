@@ -28,6 +28,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.net.URLEncoder;
 
+import ezy.ui.view.RoundButton;
+
 public class Search_result extends AppCompatActivity {
 
     //List<Book> bookList = new ArrayList<>();
@@ -37,9 +39,12 @@ public class Search_result extends AppCompatActivity {
     private TextView pages_index;
     private String preUrl;
     private String nextUrl;
-    private Button pre;
-    private Button next;
+//    private Button pre;
+//    private Button next;
     private Search_Book searchBook;
+
+    private RoundButton pre;
+    private RoundButton next;
 
     @SuppressLint("HandlerLeak")
     private Handler handler = new Handler(){
@@ -75,23 +80,33 @@ public class Search_result extends AppCompatActivity {
         searchBook = new Search_Book();
 
         pages_index = (TextView) findViewById(R.id.num_pages);
-        pre = (Button) findViewById(R.id.pre);
-        next = (Button) findViewById(R.id.next);
+//        pre = (Button) findViewById(R.id.pre);
+//        next = (Button) findViewById(R.id.next);
+
+        pre = (RoundButton) findViewById(R.id.pre);
+        next = (RoundButton) findViewById(R.id.next);
 
         pre.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(preUrl!=""){
+                if(preUrl!=""&&preUrl!=null){
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
                             //Search_Book searchBook = new Search_Book();
                             try {
                                 //String DecodeKey = URLEncoder.encode(keyword,"UTF-8");
-                                searchPages = searchBook.GetpageByUrl(ApiUrl.SEARCH_BOOK+preUrl);
+
+//                                searchPages = searchBook.GetpageByUrl(ApiUrl.SEARCH_BOOK+preUrl);
+//                                Message message = new Message();
+//                                message.what = SHOWRESULT;
+//                                message.obj = searchPages;
+
+                                //searchPages = searchBook.GetpageByUrl(ApiUrl.SEARCH_BOOK+preUrl);
                                 Message message = new Message();
                                 message.what = SHOWRESULT;
-                                message.obj = searchPages;
+                                message.obj = searchBook.GetpageByUrl(ApiUrl.SEARCH_BOOK+preUrl);
+
                                 handler.sendMessage(message);
                             } catch (IOException e) {
                                 e.printStackTrace();
@@ -108,17 +123,22 @@ public class Search_result extends AppCompatActivity {
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(nextUrl!=""){
+                if(nextUrl!=""&&nextUrl!=null){
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
                             //Search_Book searchBook = new Search_Book();
                             try {
                                 //String DecodeKey = URLEncoder.encode(keyword,"UTF-8");
-                                searchPages = searchBook.GetpageByUrl(ApiUrl.SEARCH_BOOK+nextUrl);
+//                                searchPages = searchBook.GetpageByUrl(ApiUrl.SEARCH_BOOK+nextUrl);
+//                                Message message = new Message();
+//                                message.what = SHOWRESULT;
+//                                message.obj = searchPages;
+                                //searchPages = searchBook.GetpageByUrl(ApiUrl.SEARCH_BOOK+nextUrl);
                                 Message message = new Message();
                                 message.what = SHOWRESULT;
-                                message.obj = searchPages;
+                                message.obj = searchBook.GetpageByUrl(ApiUrl.SEARCH_BOOK+nextUrl);
+
                                 handler.sendMessage(message);
                             } catch (IOException e) {
                                 e.printStackTrace();

@@ -38,4 +38,43 @@
         <item name="android:hint">@string/search_hint</item>
     </style>
 
+    <declare-styleable name="RoundButton">
+        <!-- 背景色 -->
+        <attr name="btnSolidColor" format="color"/>
+        <!-- 边框色 -->
+        <attr name="btnStrokeColor" format="color"/>
+        <!-- 边框厚度 -->
+        <attr name="btnStrokeWidth" format="dimension"/>
+        <!-- 边框虚线长度 -->
+        <attr name="btnStrokeDashWidth" format="dimension"/>
+        <!-- 边框虚线间隙 -->
+        <attr name="btnStrokeDashGap" format="dimension"/>
+        <!-- 圆角半径，stadium 表示半径为 min(height,width) / 2-->
+        <attr name="btnCornerRadius" format="dimension">
+            <enum name="stadium" value="-1"/>
+        </attr>
+        <!-- 自动计算按下(pressed)状态颜色的系数, 值为0时不自动计算 -->
+        <attr name="btnPressedRatio" format="float"/>
+    </declare-styleable>
+
+    <style name="RoundButton">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">30dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_margin">5dp</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:gravity">center</item>
+        <item name="android:clickable">true</item>
+        <item name="android:enabled">true</item>
+        <item name="android:textColor">#ccffffff</item>
+    </style>
+
+    <style name="RoundButton.Two">
+        <item name="android:layout_height">30dp</item>
+        <item name="btnStrokeWidth">1px</item>
+    </style>
+
+    <style name="Book_detail_style" parent="AppTheme">
+    </style>
+
 </resources>

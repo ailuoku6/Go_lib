@@ -38,24 +38,44 @@
         android:layout_weight="1"
         android:gravity="center_vertical|center_horizontal">
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="pre"
+        <!--<Button-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="pre"-->
+            <!--android:id="@+id/pre"-->
+            <!--/>-->
+
+        <ezy.ui.view.RoundButton
+            style="@style/RoundButton.Two"
+            android:text="上一页"
             android:id="@+id/pre"
-            />
+            android:textColor="#3F51B5"
+            app:btnCornerRadius="20dp"
+            app:btnPressedRatio="1.5"
+            app:btnStrokeColor="#3F51B5"/>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=""
+            android:text="0/0"
             android:id="@+id/num_pages"
             android:textAlignment="center"/>
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="next"
+        <!--<Button-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="next"-->
+            <!--android:id="@+id/next"-->
+            <!--/>-->
+
+        <ezy.ui.view.RoundButton
+            style="@style/RoundButton.Two"
+            android:text="下一页"
             android:id="@+id/next"
-            />
+            android:textColor="#3F51B5"
+            app:btnCornerRadius="20dp"
+            app:btnPressedRatio="1.5"
+            app:btnStrokeColor="#3F51B5"/>
+
 
     </android.support.v7.widget.LinearLayoutCompat>
 

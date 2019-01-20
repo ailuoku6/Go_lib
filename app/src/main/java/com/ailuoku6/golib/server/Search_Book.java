@@ -56,11 +56,43 @@ public class Search_Book {
         }
 
         searchPages.setResult_count(document.selectFirst(".search_form.bulk-actions").select("strong.red").text());
-        searchPages.setNum_pages(document.selectFirst(".pagination > b").text());
+
+//        if(document.selectFirst(".pagination > b").text()==null){
+//            searchPages.setPre("");
+//            searchPages.setNext("");
+//            searchPages.setNum_pages("1/1");
+//            return searchPages;
+//        }
+
+        try{
+            searchPages.setNum_pages(document.selectFirst(".pagination > b").text());//结果较少时会崩溃
+        }catch (Exception e){
+            e.printStackTrace();
+            searchPages.setPre("");
+            searchPages.setNext("");
+            searchPages.setNum_pages("1/1");
+            return searchPages;
+        }
+
         //找b标签的上一个和下一个兄弟结点
 
-        searchPages.setPre(document.selectFirst(".pagination").childNode(0).attr("href").toString());
-        searchPages.setNext(document.selectFirst(".pagination").childNode(3).attr("href").toString());
+        Elements PageUrls = document.select(".pagination > a");
+
+        if(PageUrls.size()==1){
+            if(PageUrls.get(0).text().equals("上一页")){//如果是最后一页
+                searchPages.setPre(PageUrls.get(0).attr("href"));
+                searchPages.setNext("");
+            }else {//如果是第一页
+                searchPages.setPre("");
+                searchPages.setNext(PageUrls.get(0).attr("href"));
+            }
+        }else {
+            searchPages.setPre(PageUrls.get(0).attr("href"));
+            searchPages.setNext(PageUrls.get(1).attr("href"));
+        }
+
+//        searchPages.setPre(document.selectFirst(".pagination").childNode(0).attr("href").toString());
+//        searchPages.setNext(document.selectFirst(".pagination").childNode(3).attr("href").toString());
 
         return searchPages;
     }
@@ -69,7 +101,7 @@ public class Search_Book {
         Search_pages searchPages = new Search_pages();
 
         Document document;
-        Connection connection = Jsoup.connect(Api);
+        Connection connection = Jsoup.connect(url);
         connection.timeout(5*1000)
                 .method(Connection.Method.GET);
 
@@ -87,14 +119,32 @@ public class Search_Book {
             searchPages.addBook(book);
         }
 
-        searchPages.setResult_count(document.selectFirst(".search_form.bulk-actions").select("strong .red").text());
+        searchPages.setResult_count(document.selectFirst(".search_form.bulk-actions").select("strong.red").text());
         searchPages.setNum_pages(document.selectFirst(".pagination > b").text());
         //找b标签的上一个和下一个兄弟结点
 
-        searchPages.setPre(document.selectFirst(".pagination").childNode(0).attr("href").toString());
-        searchPages.setNext(document.selectFirst(".pagination").childNode(3).attr("href").toString());
+        Elements PageUrls = document.select(".pagination > a");
+
+        if(PageUrls.size()==1){
+            if(PageUrls.get(0).text().equals("上一页")){//如果是最后一页
+                searchPages.setPre(PageUrls.get(0).attr("href"));
+                searchPages.setNext("");
+            }else {//如果是第一页
+                searchPages.setPre("");
+                searchPages.setNext(PageUrls.get(0).attr("href"));
+            }
+        }else {
+            searchPages.setPre(PageUrls.get(0).attr("href"));
+            searchPages.setNext(PageUrls.get(1).attr("href"));
+        }
+
+        //searchPages.setPre(document.selectFirst(".pagination").childNode(0).attr("href").toString());
+        Log.d(TAG, "GetpageByUrl: "+searchPages.getPre());
+        //searchPages.setNext(document.selectFirst(".pagination").childNode(3).attr("href").toString());
+        Log.d(TAG, "GetpageByUrl: "+searchPages.getNext());
 
         return searchPages;
+
     }
 
 }

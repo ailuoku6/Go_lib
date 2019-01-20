@@ -14,7 +14,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MyBorrow"></activity>
+        <activity android:name=".MyBorrow" />
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
@@ -60,6 +60,15 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".Book_detail"
+            android:theme="@style/Book_detail_style">
+            <intent-filter>
+                <action android:name="com.ailuoku6.golib.BOOKDETAIL"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+
     </application>
 
 </manifest>
