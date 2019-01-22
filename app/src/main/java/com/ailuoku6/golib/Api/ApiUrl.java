@@ -8,4 +8,5 @@ public class ApiUrl {
     public static String SEARCH_BOOK = "http://www.lib.wust.edu.cn:8780/opac/openlink.php";
     public static String SEARCHBOOK_BASE = "http://www.lib.wust.edu.cn:8780/opac/";
     public static String USERINFO = "http://www.lib.wust.edu.cn:8780/reader/redr_info_rule.php";
+    public static String BOOK_COVER = "https://www.yuntu.io/book/cover?isbn=";
 }

@@ -3,20 +3,33 @@ package com.ailuoku6.golib;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.support.v7.widget.Toolbar;
+import android.support.design.widget.CollapsingToolbarLayout;
 
+import com.ailuoku6.golib.Adapter.BooksAdapter;
+import com.ailuoku6.golib.Adapter.GuancangItem_Adapter;
+import com.ailuoku6.golib.Model.Guancang_page;
 import com.ailuoku6.golib.Model.Login_State;
+import com.ailuoku6.golib.server.GetBook_img;
+import com.ailuoku6.golib.server.GetGuancang;
+
+import java.io.IOException;
 
 public class Book_detail extends AppCompatActivity {
 
     private ImageView imageView;
     private Toolbar toolbar;
+    private CollapsingToolbarLayout collapsingToolbarLayout;
+
     private final int UPDATAIMG = 1;
     private final int UPDATAGUANCANG = 2;
 
@@ -27,10 +40,11 @@ public class Book_detail extends AppCompatActivity {
             //super.handleMessage(msg);
             switch (msg.what){
                 case UPDATAIMG:
-                    //Verimage.setImageBitmap((Bitmap) msg.obj);
+                    imageView.setImageBitmap((Bitmap) msg.obj);
                     break;
                 case UPDATAGUANCANG:
                     //Judge_state((Login_State) msg.obj);
+                    UpdataGuancang((Guancang_page)msg.obj);
                     break;
                 default:break;
             }
@@ -45,6 +59,7 @@ public class Book_detail extends AppCompatActivity {
         String url = intent.getStringExtra("url");
 
         toolbar = (Toolbar) findViewById(R.id.Book_detail_toolbar);
+        collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.Collapsing_toolbar);
         imageView = (ImageView) findViewById(R.id.Book_img);
 
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
@@ -56,7 +71,59 @@ public class Book_detail extends AppCompatActivity {
             }
         });
 
-
+        InitData(url);
 
     }
+
+    private void InitData(final String url){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Guancang_page guancang_page = new GetGuancang().getGuancang(url);
+
+                    Message message = new Message();
+                    message.what = UPDATAGUANCANG;
+                    message.obj = guancang_page;
+
+                    handler.sendMessage(message);
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+    }
+
+    private void UpdataGuancang(Guancang_page guancang_page){
+        UpdataImg(guancang_page.getImgUrl());
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.guancang_items);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+        GuancangItem_Adapter guancangItemAdapter = new GuancangItem_Adapter(guancang_page.getGuancangList());
+        recyclerView.setAdapter(guancangItemAdapter);
+
+        toolbar.setTitle(guancang_page.getBook_name());
+        collapsingToolbarLayout.setTitle(guancang_page.getBook_name());
+    }
+
+    private void UpdataImg(final String url){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    byte[] data;
+                    data = new GetBook_img().updataImg(url);
+                    Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
+                    Message message = new Message();
+                    message.what = UPDATAIMG;
+                    message.obj = bitmap;
+                    handler.sendMessage(message);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+    }
+
 }
