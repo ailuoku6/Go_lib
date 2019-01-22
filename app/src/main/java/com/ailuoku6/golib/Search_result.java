@@ -115,7 +115,7 @@ public class Search_result extends AppCompatActivity {
                     }).start();
                     //Snackbar.make(findViewById(R.id.Search_result_view),preUrl,3000).setAction("Action", null).show();
                 }else {
-                    Snackbar.make(findViewById(R.id.Search_result_view),"no pre",3000).setAction("Action", null).show();
+                    Snackbar.make(findViewById(R.id.Search_result_view),R.string.firstPage,3000).setAction("Action", null).show();
                 }
             }
         });
@@ -147,7 +147,7 @@ public class Search_result extends AppCompatActivity {
                     }).start();
                     //Snackbar.make(findViewById(R.id.Search_result_view),nextUrl,3000).setAction("Action", null).show();
                 }else {
-                    Snackbar.make(findViewById(R.id.Search_result_view),"no next",3000).setAction("Action", null).show();
+                    Snackbar.make(findViewById(R.id.Search_result_view),R.string.lastPage,3000).setAction("Action", null).show();
                 }
             }
         });

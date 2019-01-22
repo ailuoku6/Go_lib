@@ -49,10 +49,16 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.ViewHolder> 
             public void onClick(View v) {
                 int position = viewHolder.getAdapterPosition();
                 Book book = bookList.get(position);
-                Intent intent = new Intent("com.ailuoku6.golib.NOTICE_DETAIL");
+//                Intent intent = new Intent("com.ailuoku6.golib.NOTICE_DETAIL");
+//                intent.addCategory("android.intent.category.DEFAULT");
+//                intent.putExtra("url",ApiUrl.SEARCHBOOK_BASE+book.getDetailLink());
+//                v.getContext().startActivity(intent);
+
+                Intent intent = new Intent("com.ailuoku6.golib.BOOKDETAIL");
                 intent.addCategory("android.intent.category.DEFAULT");
                 intent.putExtra("url",ApiUrl.SEARCHBOOK_BASE+book.getDetailLink());
                 v.getContext().startActivity(intent);
+
             }
         });
         return viewHolder;

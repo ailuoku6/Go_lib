@@ -133,7 +133,7 @@ public class MainActivity extends AppCompatActivity
     protected void onStart() {
         super.onStart();
         initData();
-        ReadCookies();
+        ReadData();
         if(CookiesManage.IsLoged){
             name.setText(userInfo.userName);
         }
@@ -170,6 +170,15 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_camera) {
             // Handle the camera action
+            if(CookiesManage.IsLoged){
+                Intent intent = new Intent("com.ailuoku6.golib.USERDETAIL");
+                intent.addCategory("android.intent.category.DEFAULT");
+                startActivity(intent);
+            }else {
+                Intent intent = new Intent("com.ailuoku6.golib.LOGIN");
+                intent.addCategory("android.intent.category.DEFAULT");
+                startActivity(intent);
+            }
         } else if (id == R.id.nav_gallery) {
 //            Intent intent = new Intent("com.ailuoku6.golib.MYBORROW");
 //            intent.addCategory("android.intent.category.DEFAULT");
@@ -225,13 +234,17 @@ public class MainActivity extends AppCompatActivity
             recyclerView.setAdapter(noticeAdapter);
     }
 
-    public void ReadCookies(){
+    public void ReadData(){
         SharedPreferences sp = this.getSharedPreferences("data", Context.MODE_PRIVATE);
         String json = sp.getString("cookies", "");
+        String name = sp.getString("name","");
         Gson gson = new Gson();
         if(CookiesManage.cookies!=null&&json != ""){
             CookiesManage.cookies = gson.fromJson(json, CookiesManage.cookies.getClass());
             CookiesManage.IsLoged = true;
+        }
+        if(name!=""&&name!=null){
+            userInfo.userName = name;
         }
     }
 

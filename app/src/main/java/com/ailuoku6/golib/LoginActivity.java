@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.ailuoku6.golib.Model.Login_State;
+import com.ailuoku6.golib.Model.userInfo;
 import com.ailuoku6.golib.server.Login;
 import com.ailuoku6.golib.server.getPatcha;
 import com.google.gson.Gson;
@@ -195,7 +196,7 @@ public class LoginActivity extends AppCompatActivity {
             Snackbar.make(findViewById(R.id.LOGIN_ACTIVITY), "scu", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show();
             CookiesManage.IsLoged = true;
-            SaveCookies();
+            SaveData();
         }else {
             Snackbar.make(findViewById(R.id.LOGIN_ACTIVITY), loginState.getERRORINFO(), Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show();
@@ -204,13 +205,14 @@ public class LoginActivity extends AppCompatActivity {
 //                    .setAction("Action", null).show();
     }
 
-    public void SaveCookies(){
+    public void SaveData(){
         SharedPreferences sp = this.getSharedPreferences("data", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
         try {
             Gson gson = new Gson();
             String json = gson.toJson(CookiesManage.cookies);
             editor.putString("cookies", json);
+            editor.putString("name", userInfo.userName);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -26,4 +26,6 @@
     <string name="title_notifications">Notifications</string>
     <string name="title_activity_my_borrow">MyBorrow</string>
     <string name="section_format">Hello World from section: %1$d</string>
+    <string name="firstPage">已经是第一页</string>
+    <string name="lastPage">已经是最后一页</string>
 </resources>
