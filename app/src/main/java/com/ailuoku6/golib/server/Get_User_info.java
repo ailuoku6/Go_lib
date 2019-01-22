@@ -36,7 +36,7 @@ public class Get_User_info {
 
         Elements elements = element.select("tr");
 
-        userinfo.setUserName(elements.get(0).select("td").get(1).text());
+        //userinfo.setUserName(elements.get(0).select("td").get(1).text());
         userinfo.setPrifileStart(elements.get(1).select("td").get(2).text());
         userinfo.setPrifileEnd(elements.get(1).select("td").get(0).text());
         userinfo.setFiveDay_out(element1.select("a").get(0).text());

@@ -16,13 +16,16 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.ailuoku6.golib.Adapter.NoticeAdapter;
 import com.ailuoku6.golib.Model.Notice;
+import com.ailuoku6.golib.Model.userInfo;
 import com.ailuoku6.golib.server.NoticeServer;
 import com.google.gson.Gson;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
@@ -34,8 +37,14 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private MaterialSearchView searchView;
-    private final int SHOENOTICE = 1;
+    private Toolbar toolbar;
+    private DrawerLayout drawer;
+    private ActionBarDrawerToggle toggle;
+    private NavigationView navigationView;
+    private ImageView imageView;
+    private TextView name;
 
+    private final int SHOENOTICE = 1;
     private List<Notice> noticeList = new ArrayList<>();
 
     @SuppressLint("HandlerLeak")
@@ -56,21 +65,22 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("武科大图书馆");
         setSupportActionBar(toolbar);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         //navigationView加载完成后才能获取imageview对象，否则会造成空指针异常
-        ImageView imageView = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.imageView);
+        imageView = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.imageView);
+        name = (TextView) navigationView.getHeaderView(0).findViewById(R.id.name_text);
 
         searchView = (MaterialSearchView) findViewById(R.id.search_view);
 
@@ -106,7 +116,7 @@ public class MainActivity extends AppCompatActivity
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(true){
+                if(CookiesManage.IsLoged){
                     Intent intent = new Intent("com.ailuoku6.golib.USERDETAIL");
                     intent.addCategory("android.intent.category.DEFAULT");
                     startActivity(intent);
@@ -124,6 +134,9 @@ public class MainActivity extends AppCompatActivity
         super.onStart();
         initData();
         ReadCookies();
+        if(CookiesManage.IsLoged){
+            name.setText(userInfo.userName);
+        }
     }
 
     @Override
@@ -182,6 +195,8 @@ public class MainActivity extends AppCompatActivity
 
     private void initData() {
 
+        //获取通知
+
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -214,8 +229,9 @@ public class MainActivity extends AppCompatActivity
         SharedPreferences sp = this.getSharedPreferences("data", Context.MODE_PRIVATE);
         String json = sp.getString("cookies", "");
         Gson gson = new Gson();
-        if(CookiesManage.cookies!=null){
+        if(CookiesManage.cookies!=null&&json != ""){
             CookiesManage.cookies = gson.fromJson(json, CookiesManage.cookies.getClass());
+            CookiesManage.IsLoged = true;
         }
     }
 

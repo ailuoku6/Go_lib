@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.ailuoku6.golib.Api.ApiUrl;
 import com.ailuoku6.golib.Model.Login_State;
+import com.ailuoku6.golib.Model.userInfo;
 
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
@@ -66,6 +67,7 @@ public class Login {
         if(element==null){
             loginState.setLog(true);
             loginState.setERRORINFO("");
+            userInfo.userName = document.selectFirst(".profile-name").text();
         }else {
             loginState.setLog(false);
             loginState.setERRORINFO(element.text());

@@ -1,7 +1,7 @@
 package com.ailuoku6.golib.Model;
 
 public class userInfo {
-    private String userName;
+    public static String userName;
     private String prifileStart;
     private String PrifileEnd;
     private String fiveDay_out;
@@ -25,9 +25,7 @@ public class userInfo {
 //        this.debt = debt;
 //    }
 
-    public userInfo(){
-
-    }
+    public userInfo(){}
 
     public String getUserName() {
         return userName;

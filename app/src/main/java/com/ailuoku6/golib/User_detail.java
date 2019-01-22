@@ -98,7 +98,7 @@ public class User_detail extends AppCompatActivity {
 
     public void fillData(userInfo userinfo){
         name.setText(userinfo.getUserName());
-        ((TextView) expandingList.createNewItem(R.layout.expanding_layout).findViewById(R.id.title)).setText(userinfo.getUserName());
+        ((TextView) expandingList.createNewItem(R.layout.expanding_layout).findViewById(R.id.title)).setText("姓名: "+userinfo.getUserName());
         ((TextView) expandingList.createNewItem(R.layout.expanding_layout).findViewById(R.id.title)).setText(userinfo.getBorrowTime());
         ((TextView) expandingList.createNewItem(R.layout.expanding_layout).findViewById(R.id.title)).setText(userinfo.getBreakrulesTime());
         ((TextView) expandingList.createNewItem(R.layout.expanding_layout).findViewById(R.id.title)).setText(userinfo.getDebt());

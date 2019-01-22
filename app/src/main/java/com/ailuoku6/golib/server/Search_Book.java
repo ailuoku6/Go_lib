@@ -49,7 +49,7 @@ public class Search_Book {
             Element text1 = e.select("p > span").get(0);
             Element text2 = e.select("p").get(0);
 
-            Book book = new Book(e.select("h3 > *:not(span)").text(),e.select("h3 > a").attr("href"),
+            Book book = new Book(e.selectFirst("h3 > a").text()+e.selectFirst("h3 > a").nextSibling().toString(),e.select("h3 > a").attr("href"),
                     text1.childNode(0).toString(),text1.childNode(2).toString()+" ",
                     text2.childNode(2).toString(),text2.childNode(4).toString().replace("&nbsp;"," "));
             searchPages.addBook(book);
