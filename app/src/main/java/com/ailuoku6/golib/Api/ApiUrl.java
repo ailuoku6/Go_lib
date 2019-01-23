@@ -10,4 +10,5 @@ public class ApiUrl {
     public static String USERINFO = "http://www.lib.wust.edu.cn:8780/reader/redr_info_rule.php";
     public static String BOOK_COVER = "https://www.yuntu.io/book/cover?isbn=";
     public static String BOOK_HIST = "http://www.lib.wust.edu.cn:8780/reader/book_hist.php";
+    public static String BOOK_LST = "http://www.lib.wust.edu.cn:8780/reader/book_lst.php";
 }
