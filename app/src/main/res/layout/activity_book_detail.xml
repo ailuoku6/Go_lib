@@ -20,6 +20,7 @@
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             app:contentScrim="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:toolbarId="@id/Book_detail_toolbar"
             android:fitsSystemWindows="true">
 
             <ImageView
@@ -37,7 +38,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
-                android:id="@+id/Book_detail_toolbar"/>
+                android:id="@+id/Book_detail_toolbar"
+                app:titleTextColor="@color/colorAccent"/>
         </android.support.design.widget.CollapsingToolbarLayout>
 
     </android.support.design.widget.AppBarLayout>

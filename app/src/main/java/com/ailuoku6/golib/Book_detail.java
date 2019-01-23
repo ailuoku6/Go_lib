@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
@@ -20,6 +21,7 @@ import com.ailuoku6.golib.Adapter.BooksAdapter;
 import com.ailuoku6.golib.Adapter.GuancangItem_Adapter;
 import com.ailuoku6.golib.Model.Guancang_page;
 import com.ailuoku6.golib.Model.Login_State;
+import com.ailuoku6.golib.Util.FastBlurUtil;
 import com.ailuoku6.golib.server.GetBook_img;
 import com.ailuoku6.golib.server.GetGuancang;
 
@@ -43,8 +45,9 @@ public class Book_detail extends AppCompatActivity {
             //super.handleMessage(msg);
             switch (msg.what){
                 case UPDATAIMG:
-                    imageView.setImageBitmap((Bitmap) msg.obj);
-                    progressDialog.dismiss();
+//                    imageView.setImageBitmap((Bitmap) msg.obj);
+//                    progressDialog.dismiss();
+                    setImg((Bitmap) msg.obj);
                     break;
                 case UPDATAGUANCANG:
                     //Judge_state((Login_State) msg.obj);
@@ -140,6 +143,19 @@ public class Book_detail extends AppCompatActivity {
                 }
             }
         }).start();
+    }
+
+    private void setImg(Bitmap bitmap){
+
+        imageView.setImageBitmap(bitmap);
+
+        Bitmap blurBitmap = FastBlurUtil.toBlur(bitmap, 2);
+
+        collapsingToolbarLayout.setBackground(new BitmapDrawable(blurBitmap));
+
+        if(progressDialog.isShowing()){
+            progressDialog.dismiss();
+        }
     }
 
 }
