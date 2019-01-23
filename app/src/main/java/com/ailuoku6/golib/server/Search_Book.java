@@ -35,7 +35,7 @@ public class Search_Book {
         Log.d(TAG, "GetSearch_page: "+keyWord);
         Document document;
         Connection connection = Jsoup.connect(Api);
-        connection.timeout(5*1000)
+        connection.timeout(8*1000)
                 .method(Connection.Method.GET)
                 .data("strSearchType","title")
                 .data("strText",keyWord)
@@ -56,7 +56,12 @@ public class Search_Book {
             searchPages.addBook(book);
         }
 
-        searchPages.setResult_count(document.selectFirst(".search_form.bulk-actions").select("strong.red").text());
+        try{
+            searchPages.setResult_count(document.selectFirst(".search_form.bulk-actions").select("strong.red").text());
+        }catch (Exception e){
+            e.printStackTrace();
+            searchPages.setResult_count("0");
+        }
 
 //        if(document.selectFirst(".pagination > b").text()==null){
 //            searchPages.setPre("");
@@ -103,7 +108,7 @@ public class Search_Book {
 
         Document document;
         Connection connection = Jsoup.connect(url);
-        connection.timeout(5*1000)
+        connection.timeout(8*1000)
                 .method(Connection.Method.GET);
 
         Connection.Response response = connection.execute();

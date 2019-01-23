@@ -227,9 +227,10 @@ public class MainActivity extends AppCompatActivity
                     //message.obj = noticeList;
                     handler.sendMessage(message);
                 }catch (Exception e){
-
-                }finally {
-
+                    e.printStackTrace();
+                    if(progressDialog.isShowing()){
+                        progressDialog.dismiss();
+                    }
                 }
             }
         }).start();
