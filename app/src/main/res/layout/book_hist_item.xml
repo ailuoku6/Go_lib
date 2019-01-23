@@ -41,7 +41,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="#ACAB99"
                 app:layout_constraintRight_toRightOf="parent"
-                android:id="@+id/Borrow_data" />
+                android:id="@+id/Borrow_date" />
 
         </android.support.constraint.ConstraintLayout>
 
@@ -65,7 +65,7 @@
                 android:textColor="#ACAB99"
                 app:layout_constraintRight_toRightOf="parent"
                 android:layout_marginRight="12dp"
-                android:id="@+id/return_data" />
+                android:id="@+id/return_date" />
 
         </android.support.constraint.ConstraintLayout>
 
