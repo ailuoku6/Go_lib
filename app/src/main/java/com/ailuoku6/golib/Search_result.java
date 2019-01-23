@@ -1,6 +1,7 @@
 package com.ailuoku6.golib;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
@@ -37,6 +38,8 @@ public class Search_result extends AppCompatActivity {
     private final int SHOWRESULT = 1;
     private Search_pages searchPages;
     private TextView pages_index;
+    private ProgressDialog progressDialog;
+
     private String preUrl;
     private String nextUrl;
 //    private Button pre;
@@ -76,6 +79,9 @@ public class Search_result extends AppCompatActivity {
                 finish();
             }
         });
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("加载中......");
+        progressDialog.setCancelable(false);
 
         searchBook = new Search_Book();
 
@@ -90,6 +96,7 @@ public class Search_result extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(preUrl!=""&&preUrl!=null){
+                    progressDialog.show();
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
@@ -115,7 +122,7 @@ public class Search_result extends AppCompatActivity {
                     }).start();
                     //Snackbar.make(findViewById(R.id.Search_result_view),preUrl,3000).setAction("Action", null).show();
                 }else {
-                    Snackbar.make(findViewById(R.id.Search_result_view),R.string.firstPage,3000).setAction("Action", null).show();
+                    Snackbar.make(findViewById(R.id.Search_result_view),R.string.firstPage,1500).setAction("Action", null).show();
                 }
             }
         });
@@ -124,6 +131,7 @@ public class Search_result extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(nextUrl!=""&&nextUrl!=null){
+                    progressDialog.show();
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
@@ -147,12 +155,15 @@ public class Search_result extends AppCompatActivity {
                     }).start();
                     //Snackbar.make(findViewById(R.id.Search_result_view),nextUrl,3000).setAction("Action", null).show();
                 }else {
-                    Snackbar.make(findViewById(R.id.Search_result_view),R.string.lastPage,3000).setAction("Action", null).show();
+                    Snackbar.make(findViewById(R.id.Search_result_view),R.string.lastPage,1500).setAction("Action", null).show();
                 }
             }
         });
 
+        progressDialog.show();
+
         InitData(this,keyword);
+
     }
 
     @Override
@@ -189,5 +200,6 @@ public class Search_result extends AppCompatActivity {
             pages_index.setText(search_pages.getNum_pages());
             preUrl = search_pages.getPre();
             nextUrl = search_pages.getNext();
+            progressDialog.dismiss();
     }
 }

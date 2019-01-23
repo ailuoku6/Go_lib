@@ -1,12 +1,14 @@
 package com.ailuoku6.golib;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import android.support.v7.widget.Toolbar;
 
 import com.ailuoku6.golib.Model.userInfo;
 import com.ailuoku6.golib.server.Get_User_info;
@@ -21,6 +23,8 @@ public class User_detail extends AppCompatActivity {
     private ExpandingList expandingList;
     private final int GETUSERINFO = 1;
     private TextView name;
+    private Toolbar toolbar;
+    private ProgressDialog progressDialog;
 
     @SuppressLint("HandlerLeak")
     private Handler handler = new Handler(){
@@ -44,36 +48,27 @@ public class User_detail extends AppCompatActivity {
         expandingList = (ExpandingList) findViewById(R.id.expanding_list_main);
         name = (TextView) findViewById(R.id.name_text);
 
-//        ExpandingItem item = expandingList.createNewItem(R.layout.expanding_layout);
-//        ExpandingItem item1 = expandingList.createNewItem(R.layout.expanding_layout);
-//
-//        ((TextView) item.findViewById(R.id.title)).setText("It Works!!");
-//        item.createSubItems(5);
-//
-//        View subItemZero = item.getSubItemView(0);
-//        ((TextView) subItemZero.findViewById(R.id.sub_title)).setText("Cool");
-//
-//        View subItemOne = item.getSubItemView(1);
-//        ((TextView) subItemOne.findViewById(R.id.sub_title)).setText("Awesome");
-//
-//        item.setIndicatorColorRes(R.color.blue);
-//        item.setIndicatorIconRes(R.drawable.ic_arrow_back);
-//
-//        ((TextView) item1.findViewById(R.id.title)).setText("item2");
-//
-//        item1.createSubItems(2);
-//
-//        View sub0 = item1.getSubItemView(0);
-//
-//        ((TextView) sub0.findViewById(R.id.sub_title)).setText("niubi");
-//
-//        item1.setIndicatorColorRes(R.color.blue);
-//        item1.setIndicatorIconRes(R.drawable.ic_arrow_back);
+        toolbar = (Toolbar) findViewById(R.id.User_detail_toolbar);
+
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("加载中......");
+        progressDialog.setCancelable(false);
+
         InitData();
 
     }
 
     public void InitData(){
+        progressDialog.show();
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -108,6 +103,8 @@ public class User_detail extends AppCompatActivity {
         ((TextView) expandingList.createNewItem(R.layout.expanding_layout).findViewById(R.id.title)).setText(userinfo.getPrifileStart());
         ((TextView) expandingList.createNewItem(R.layout.expanding_layout).findViewById(R.id.title)).setText(userinfo.getPrifileEnd());
         ((TextView) expandingList.createNewItem(R.layout.expanding_layout).findViewById(R.id.title)).setText(userinfo.getUserType());
+
+        progressDialog.dismiss();
     }
 
 }

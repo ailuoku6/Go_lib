@@ -1,6 +1,7 @@
 package com.ailuoku6.golib;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -29,9 +30,11 @@ public class Book_detail extends AppCompatActivity {
     private ImageView imageView;
     private Toolbar toolbar;
     private CollapsingToolbarLayout collapsingToolbarLayout;
+    private ProgressDialog progressDialog;
 
     private final int UPDATAIMG = 1;
     private final int UPDATAGUANCANG = 2;
+    private String url;
 
     @SuppressLint("HandlerLeak")
     private Handler handler = new Handler(){
@@ -41,6 +44,7 @@ public class Book_detail extends AppCompatActivity {
             switch (msg.what){
                 case UPDATAIMG:
                     imageView.setImageBitmap((Bitmap) msg.obj);
+                    progressDialog.dismiss();
                     break;
                 case UPDATAGUANCANG:
                     //Judge_state((Login_State) msg.obj);
@@ -56,7 +60,7 @@ public class Book_detail extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book_detail);
         Intent intent = getIntent();
-        String url = intent.getStringExtra("url");
+        url = intent.getStringExtra("url");
 
         toolbar = (Toolbar) findViewById(R.id.Book_detail_toolbar);
         collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.Collapsing_toolbar);
@@ -71,8 +75,17 @@ public class Book_detail extends AppCompatActivity {
             }
         });
 
-        InitData(url);
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("加载中......");
+        progressDialog.setCancelable(false);
 
+        progressDialog.show();
+        InitData(url);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
     }
 
     private void InitData(final String url){

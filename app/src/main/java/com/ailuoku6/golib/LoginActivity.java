@@ -1,6 +1,7 @@
 package com.ailuoku6.golib;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -30,6 +31,8 @@ public class LoginActivity extends AppCompatActivity {
     private EditText user_name,password,vericode;
     private ImageView Verimage;
     private Button login;
+    private ProgressDialog progressDialog;
+
     private Login login_;
     private getPatcha patcha;
     //private Map<String,String> cookies = new HashMap<>();
@@ -74,6 +77,9 @@ public class LoginActivity extends AppCompatActivity {
         vericode = (EditText) findViewById(R.id.vericode_input);
         Verimage = (ImageView) findViewById(R.id.vericode);
         login = (Button) findViewById(R.id.login);
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("加载中......");
+        progressDialog.setCancelable(false);
 
         login_ = new Login();
 
@@ -101,6 +107,8 @@ public class LoginActivity extends AppCompatActivity {
 //                } catch (InterruptedException e) {
 //                    e.printStackTrace();
 //                }
+
+                progressDialog.show();
 
                 new Thread(new Runnable() {
                     @Override
@@ -192,6 +200,9 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void Judge_state(Login_State loginState){
+
+        progressDialog.dismiss();
+
         if(loginState.getIslog()){
             Snackbar.make(findViewById(R.id.LOGIN_ACTIVITY), "scu", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show();

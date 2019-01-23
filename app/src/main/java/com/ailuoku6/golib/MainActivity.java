@@ -1,6 +1,7 @@
 package com.ailuoku6.golib;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -43,6 +44,8 @@ public class MainActivity extends AppCompatActivity
     private NavigationView navigationView;
     private ImageView imageView;
     private TextView name;
+
+    private ProgressDialog progressDialog;
 
     private final int SHOENOTICE = 1;
     private List<Notice> noticeList = new ArrayList<>();
@@ -127,12 +130,19 @@ public class MainActivity extends AppCompatActivity
                 }
             }
         });
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("加载中......");
+        progressDialog.setCancelable(false);
+
+        progressDialog.show();
+        initData();
+
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        initData();
         ReadData();
         if(CookiesManage.IsLoged){
             name.setText(userInfo.userName);
@@ -232,6 +242,9 @@ public class MainActivity extends AppCompatActivity
             recyclerView.setLayoutManager(layoutManager);
             NoticeAdapter noticeAdapter = new NoticeAdapter(noticeList);
             recyclerView.setAdapter(noticeAdapter);
+
+            progressDialog.dismiss();
+
     }
 
     public void ReadData(){
