@@ -193,12 +193,6 @@ public class MainActivity extends AppCompatActivity
 //            Intent intent = new Intent("com.ailuoku6.golib.MYBORROW");
 //            intent.addCategory("android.intent.category.DEFAULT");
 //            startActivity(intent);
-        } else if (id == R.id.nav_slideshow) {
-            Intent intent = new Intent("com.ailuoku6.golib.BOOKDETAIL");
-            intent.addCategory("android.intent.category.DEFAULT");
-            startActivity(intent);
-        } else if (id == R.id.nav_manage) {
-
         } else if (id == R.id.nav_share) {
             Intent intent = new Intent("com.ailuoku6.golib.LOGIN");
             intent.addCategory("android.intent.category.DEFAULT");

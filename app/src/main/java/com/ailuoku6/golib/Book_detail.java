@@ -3,8 +3,10 @@ package com.ailuoku6.golib;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Handler;
 import android.os.Message;
@@ -66,7 +68,11 @@ public class Book_detail extends AppCompatActivity {
         url = intent.getStringExtra("url");
 
         toolbar = (Toolbar) findViewById(R.id.Book_detail_toolbar);
+
         collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.Collapsing_toolbar);
+        collapsingToolbarLayout.setExpandedTitleTextColor(ColorStateList.valueOf(Color.GRAY));
+        collapsingToolbarLayout.setCollapsedTitleTextColor(Color.WHITE);
+
         imageView = (ImageView) findViewById(R.id.Book_img);
 
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
