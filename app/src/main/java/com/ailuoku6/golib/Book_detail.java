@@ -147,11 +147,11 @@ public class Book_detail extends AppCompatActivity {
 
     private void setImg(Bitmap bitmap){
 
-        imageView.setImageBitmap(bitmap);
-
-        Bitmap blurBitmap = FastBlurUtil.toBlur(bitmap, 2);
-
-        collapsingToolbarLayout.setBackground(new BitmapDrawable(blurBitmap));
+        if(bitmap!=null){
+            imageView.setImageBitmap(bitmap);
+            Bitmap blurBitmap = FastBlurUtil.toBlur(bitmap, 3);
+            collapsingToolbarLayout.setBackground(new BitmapDrawable(blurBitmap));
+        }
 
         if(progressDialog.isShowing()){
             progressDialog.dismiss();
