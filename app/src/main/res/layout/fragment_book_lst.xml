@@ -6,9 +6,17 @@
     tools:context=".Fragment.Book_lstFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <!--<TextView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:text="@string/hello_blank_fragment"-->
+        <!--android:id="@+id/text3"/>-->
+
+    <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:id="@+id/Book_lst_list">
+
+    </android.support.v7.widget.RecyclerView>
 
 </FrameLayout>

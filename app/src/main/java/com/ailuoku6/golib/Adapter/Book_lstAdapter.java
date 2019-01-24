@@ -31,7 +31,7 @@ public class Book_lstAdapter extends RecyclerView.Adapter<Book_lstAdapter.ViewHo
             Book_lstView = itemView;
             book_name = (TextView) itemView.findViewById(R.id.Book_lst_name);
             guancang = (TextView) itemView.findViewById(R.id.guancang_lst);
-            borrowDate = (TextView) itemView.findViewById(R.id.Book_lst_name);
+            borrowDate = (TextView) itemView.findViewById(R.id.Borrow_date_lst);
             returnDate = (TextView) itemView.findViewById(R.id.return_date_lst);
             xujie = (RoundButton) itemView.findViewById(R.id.xujie);
         }

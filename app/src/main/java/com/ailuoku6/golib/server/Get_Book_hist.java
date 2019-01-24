@@ -38,8 +38,8 @@ public class Get_Book_hist {
 
                 book_hist.setName(tds.get(2).text());
                 book_hist.setZuozhe(tds.get(3).text());
-                book_hist.setBorrowDate(tds.get(4).text());
-                book_hist.setReturnDate(tds.get(5).text());
+                book_hist.setBorrowDate("借:"+tds.get(4).text());
+                book_hist.setReturnDate("还:"+tds.get(5).text());
                 book_hist.setGuancangdi(tds.get(6).text());
 
                 book_hists.add(book_hist);

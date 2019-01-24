@@ -21,6 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
+            android:layout_marginLeft="12dp"
             android:textColor="#6F6E5F"
             android:id="@+id/Book_lst_name"/>
 
@@ -34,6 +35,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="#42423D"
                 app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_marginLeft="12dp"
                 android:id="@+id/Borrow_date_lst"/>
 
             <ezy.ui.view.RoundButton
@@ -46,6 +48,7 @@
                 app:btnPressedRatio="1.5"
                 app:btnStrokeColor="@color/colorAccent"
                 app:btnSolidColor="@color/colorAccent"
+                android:layout_marginRight="12dp"
                 app:layout_constraintRight_toRightOf="parent"/>
 
 

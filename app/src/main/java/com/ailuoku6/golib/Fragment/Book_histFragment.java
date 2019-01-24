@@ -1,109 +1,126 @@
 package com.ailuoku6.golib.Fragment;
 
+import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.ailuoku6.golib.Adapter.Book_histAdapter;
+import com.ailuoku6.golib.CookiesManage;
+import com.ailuoku6.golib.Model.Book_hist;
 import com.ailuoku6.golib.R;
+import com.ailuoku6.golib.server.Get_Book_hist;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link Book_histFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link Book_histFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.io.IOException;
+import java.util.List;
+
+
 public class Book_histFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-//    private String mParam1;
-//    private String mParam2;
+    //private OnFragmentInteractionListener mListener;
 
-    private OnFragmentInteractionListener mListener;
+    private View mview;
+    private ProgressDialog progressDialog;
+    private final int SHOWBOOK_HIST = 1;
+
+
+    @SuppressLint("HandlerLeak")
+    private Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what){
+                case SHOWBOOK_HIST:
+                    ShowList((List<Book_hist>) msg.obj);
+                    break;
+                    default:break;
+            }
+        }
+    };
 
     public Book_histFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment Book_histFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static Book_histFragment newInstance() {
         Book_histFragment fragment = new Book_histFragment();
-//        Bundle args = new Bundle();
-//        args.putString(ARG_PARAM1, param1);
-//        args.putString(ARG_PARAM2, param2);
-//        fragment.setArguments(args);
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        if (getArguments() != null) {
-//            mParam1 = getArguments().getString(ARG_PARAM1);
-//            mParam2 = getArguments().getString(ARG_PARAM2);
-//        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_book_hist, container, false);
-    }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
+        View view = inflater.inflate(R.layout.fragment_book_hist, container, false);
+        mview = view;
+
+        return view;
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        progressDialog = new ProgressDialog(view.getContext());
+        progressDialog.setMessage("加载中......");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+        GetList();
     }
 
     @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
+    public void onDestroyView() {
+        super.onDestroyView();
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
+
+    public void GetList(){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    List<Book_hist> book_hists = new Get_Book_hist().getBook_hist(CookiesManage.cookies);
+                    Message message = new Message();
+                    message.what = SHOWBOOK_HIST;
+                    message.obj = book_hists;
+                    handler.sendMessage(message);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    if(progressDialog.isShowing()){
+                        progressDialog.dismiss();
+                    }
+                }
+            }
+        }).start();
+    }
+
+
+    public void ShowList(List<Book_hist> book_hists){
+        RecyclerView recyclerView = (RecyclerView) mview.findViewById(R.id.Book_hist_list);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mview.getContext());
+        recyclerView.setLayoutManager(linearLayoutManager);
+        Book_histAdapter book_histAdapter = new Book_histAdapter(book_hists);
+        recyclerView.setAdapter(book_histAdapter);
+
+        if(progressDialog.isShowing()){
+            progressDialog.dismiss();
+        }
+
     }
 }
