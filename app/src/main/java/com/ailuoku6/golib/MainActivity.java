@@ -190,9 +190,9 @@ public class MainActivity extends AppCompatActivity
                 startActivity(intent);
             }
         } else if (id == R.id.nav_gallery) {
-//            Intent intent = new Intent("com.ailuoku6.golib.MYBORROW");
-//            intent.addCategory("android.intent.category.DEFAULT");
-//            startActivity(intent);
+            Intent intent = new Intent("com.ailuoku6.golib.MYBORROW");
+            intent.addCategory("android.intent.category.DEFAULT");
+            startActivity(intent);
         } else if (id == R.id.nav_share) {
             Intent intent = new Intent("com.ailuoku6.golib.LOGIN");
             intent.addCategory("android.intent.category.DEFAULT");
