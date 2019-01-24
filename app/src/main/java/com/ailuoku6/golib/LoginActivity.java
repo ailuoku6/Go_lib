@@ -87,27 +87,6 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(final View v) {
 
-//                Thread th = new Thread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        try {
-//                            loginState = login_.LogIn(user_name.getText().toString(),password.getText().toString(),vericode.getText().toString(),CookiesManage.cookies);
-//                        } catch (IOException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                });
-//
-//                th.start();
-
-                //预留进度条代码位置
-
-//                try {
-//                    th.join();
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
-
                 progressDialog.show();
 
                 new Thread(new Runnable() {
@@ -207,10 +186,11 @@ public class LoginActivity extends AppCompatActivity {
         progressDialog.dismiss();
 
         if(loginState.getIslog()){
-            Snackbar.make(findViewById(R.id.LOGIN_ACTIVITY), "scu", Snackbar.LENGTH_LONG)
+            Snackbar.make(findViewById(R.id.LOGIN_ACTIVITY), "登录成功!", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show();
             CookiesManage.IsLoged = true;
             SaveData();
+            finish();
         }else {
             Snackbar.make(findViewById(R.id.LOGIN_ACTIVITY), loginState.getERRORINFO(), Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show();

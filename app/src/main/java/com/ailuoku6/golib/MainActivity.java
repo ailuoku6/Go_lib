@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("武科大图书馆");
+//        toolbar.setTitle("武科大图书馆");
         setSupportActionBar(toolbar);
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -178,17 +178,16 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if(id!=R.id.nav_send&&!CookiesManage.IsLoged){
+            Intent intent = new Intent("com.ailuoku6.golib.LOGIN");
+            intent.addCategory("android.intent.category.DEFAULT");
+            startActivity(intent);
+        }else if (id == R.id.nav_camera) {
             // Handle the camera action
-            if(CookiesManage.IsLoged){
-                Intent intent = new Intent("com.ailuoku6.golib.USERDETAIL");
-                intent.addCategory("android.intent.category.DEFAULT");
-                startActivity(intent);
-            }else {
-                Intent intent = new Intent("com.ailuoku6.golib.LOGIN");
-                intent.addCategory("android.intent.category.DEFAULT");
-                startActivity(intent);
-            }
+            Intent intent = new Intent("com.ailuoku6.golib.USERDETAIL");
+            intent.addCategory("android.intent.category.DEFAULT");
+            startActivity(intent);
+
         } else if (id == R.id.nav_gallery) {
             Intent intent = new Intent("com.ailuoku6.golib.MYBORROW");
             intent.addCategory("android.intent.category.DEFAULT");
@@ -198,7 +197,9 @@ public class MainActivity extends AppCompatActivity
             intent.addCategory("android.intent.category.DEFAULT");
             startActivity(intent);
         } else if (id == R.id.nav_send) {
-
+            Intent intent = new Intent("com.ailuoku6.golib.ABOUT");
+            intent.addCategory("android.intent.category.DEFAULT");
+            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -247,12 +248,14 @@ public class MainActivity extends AppCompatActivity
         String json = sp.getString("cookies", "");
         String name = sp.getString("name","");
         Gson gson = new Gson();
-        if(CookiesManage.cookies!=null&&json != ""){
+        if(CookiesManage.cookies!=null&&json != ""&&name!=""&&name!=null){
             CookiesManage.cookies = gson.fromJson(json, CookiesManage.cookies.getClass());
             CookiesManage.IsLoged = true;
-        }
-        if(name!=""&&name!=null){
             userInfo.userName = name;
+        }else {
+            CookiesManage.cookies = null;
+            CookiesManage.IsLoged = false;
+            userInfo.userName = "未登录";
         }
     }
 

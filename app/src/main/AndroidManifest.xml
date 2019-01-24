@@ -63,14 +63,22 @@
             android:name=".Book_detail"
             android:theme="@style/Book_detail_style">
             <intent-filter>
-                <action android:name="com.ailuoku6.golib.BOOKDETAIL"/>
-                <category android:name="android.intent.category.DEFAULT"/>
+                <action android:name="com.ailuoku6.golib.BOOKDETAIL" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".MyBorrow">
+            <intent-filter>
+                <action android:name="com.ailuoku6.golib.MYBORROW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
 
-        <activity android:name=".MyBorrow" >
+        <activity android:name=".AboutActivity">
             <intent-filter>
-                <action android:name="com.ailuoku6.golib.MYBORROW"/>
+                <action android:name="com.ailuoku6.golib.ABOUT"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
