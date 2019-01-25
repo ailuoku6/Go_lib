@@ -107,7 +107,9 @@ public class User_detail extends AppCompatActivity {
         ((TextView) expandingList.createNewItem(R.layout.expanding_layout).findViewById(R.id.title)).setText(userinfo.getPrifileEnd());
         ((TextView) expandingList.createNewItem(R.layout.expanding_layout).findViewById(R.id.title)).setText(userinfo.getUserType());
 
-        progressDialog.dismiss();
+        if (progressDialog.isShowing()){
+            progressDialog.dismiss();
+        }
     }
 
 }

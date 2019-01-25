@@ -146,6 +146,9 @@ public class Book_detail extends AppCompatActivity {
                     handler.sendMessage(message);
                 } catch (IOException e) {
                     e.printStackTrace();
+                    if(progressDialog.isShowing()){
+                        progressDialog.dismiss();
+                    }
                 }
             }
         }).start();

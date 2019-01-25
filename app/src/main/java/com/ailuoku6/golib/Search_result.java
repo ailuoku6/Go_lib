@@ -96,31 +96,9 @@ public class Search_result extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(preUrl!=""&&preUrl!=null){
-                    progressDialog.show();
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            //Search_Book searchBook = new Search_Book();
-                            try {
-                                //String DecodeKey = URLEncoder.encode(keyword,"UTF-8");
 
-//                                searchPages = searchBook.GetpageByUrl(ApiUrl.SEARCH_BOOK+preUrl);
-//                                Message message = new Message();
-//                                message.what = SHOWRESULT;
-//                                message.obj = searchPages;
+                    GetPageByUrl(preUrl);
 
-                                //searchPages = searchBook.GetpageByUrl(ApiUrl.SEARCH_BOOK+preUrl);
-                                Message message = new Message();
-                                message.what = SHOWRESULT;
-                                message.obj = searchBook.GetpageByUrl(ApiUrl.SEARCH_BOOK+preUrl);
-
-                                handler.sendMessage(message);
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }).start();
-                    //Snackbar.make(findViewById(R.id.Search_result_view),preUrl,3000).setAction("Action", null).show();
                 }else {
                     Snackbar.make(findViewById(R.id.Search_result_view),R.string.firstPage,1500).setAction("Action", null).show();
                 }
@@ -131,29 +109,7 @@ public class Search_result extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(nextUrl!=""&&nextUrl!=null){
-                    progressDialog.show();
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            //Search_Book searchBook = new Search_Book();
-                            try {
-                                //String DecodeKey = URLEncoder.encode(keyword,"UTF-8");
-//                                searchPages = searchBook.GetpageByUrl(ApiUrl.SEARCH_BOOK+nextUrl);
-//                                Message message = new Message();
-//                                message.what = SHOWRESULT;
-//                                message.obj = searchPages;
-                                //searchPages = searchBook.GetpageByUrl(ApiUrl.SEARCH_BOOK+nextUrl);
-                                Message message = new Message();
-                                message.what = SHOWRESULT;
-                                message.obj = searchBook.GetpageByUrl(ApiUrl.SEARCH_BOOK+nextUrl);
-
-                                handler.sendMessage(message);
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }).start();
-                    //Snackbar.make(findViewById(R.id.Search_result_view),nextUrl,3000).setAction("Action", null).show();
+                    GetPageByUrl(nextUrl);
                 }else {
                     Snackbar.make(findViewById(R.id.Search_result_view),R.string.lastPage,1500).setAction("Action", null).show();
                 }
@@ -194,6 +150,26 @@ public class Search_result extends AppCompatActivity {
         }).start();
     }
 
+    private void GetPageByUrl(final String url){
+        progressDialog.show();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Message message = new Message();
+                    message.what = SHOWRESULT;
+                    message.obj = searchBook.GetpageByUrl(ApiUrl.SEARCH_BOOK+url);
+                    handler.sendMessage(message);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    if(progressDialog.isShowing()){
+                        progressDialog.dismiss();
+                    }
+                }
+            }
+        }).start();
+    }
+
     private void ShowResult(Search_pages search_pages){
             RecyclerView recyclerView = (RecyclerView) findViewById(R.id.Books_list);
             LinearLayoutManager layoutManager = new LinearLayoutManager(this);
@@ -203,6 +179,8 @@ public class Search_result extends AppCompatActivity {
             pages_index.setText(search_pages.getNum_pages());
             preUrl = search_pages.getPre();
             nextUrl = search_pages.getNext();
-            progressDialog.dismiss();
+            if(progressDialog.isShowing()){
+                progressDialog.dismiss();
+            }
     }
 }
