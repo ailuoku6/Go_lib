@@ -29,6 +29,8 @@
     <string name="firstPage">已经是第一页</string>
     <string name="lastPage">已经是最后一页</string>
 
+    <string name="loading">加载中......</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

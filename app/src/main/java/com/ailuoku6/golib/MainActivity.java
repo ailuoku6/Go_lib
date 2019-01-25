@@ -132,7 +132,7 @@ public class MainActivity extends AppCompatActivity
         });
 
         progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("加载中......");
+        progressDialog.setMessage(getString(R.string.loading));
         progressDialog.setCancelable(false);
 
         progressDialog.show();

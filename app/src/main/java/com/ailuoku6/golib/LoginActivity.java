@@ -78,7 +78,7 @@ public class LoginActivity extends AppCompatActivity {
         Verimage = (ImageView) findViewById(R.id.vericode);
         login = (Button) findViewById(R.id.login);
         progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("加载中......");
+        progressDialog.setMessage(getString(R.string.loading));
         progressDialog.setCancelable(false);
 
         login_ = new Login();

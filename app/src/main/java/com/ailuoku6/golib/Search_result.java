@@ -80,7 +80,7 @@ public class Search_result extends AppCompatActivity {
             }
         });
         progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("加载中......");
+        progressDialog.setMessage(getString(R.string.loading));
         progressDialog.setCancelable(false);
 
         searchBook = new Search_Book();

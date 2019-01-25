@@ -91,7 +91,7 @@ public class Book_lstFragment extends Fragment {
         Log.d(TAG, "onViewCreated: ");
         super.onViewCreated(view, savedInstanceState);
         progressDialog = new ProgressDialog(view.getContext());
-        progressDialog.setMessage("加载中......");
+        progressDialog.setMessage(getString(R.string.loading));
         progressDialog.setCancelable(false);
         progressDialog.show();
         GetBook_lst();
