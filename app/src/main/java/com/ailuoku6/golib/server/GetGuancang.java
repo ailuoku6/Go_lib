@@ -31,7 +31,9 @@ public class GetGuancang {
         Elements trs = table.select("tbody > tr");
 
         try{
-            guancang_page.setImgUrl(ApiUrl.BOOK_COVER+document.select(".booklist").get(2).select("dd").text());
+            String str = document.select(".booklist").get(2).select("dd").text();
+            guancang_page.setImgUrl(ApiUrl.BOOK_COVER+str);
+            guancang_page.setISBN(str.substring(0,str.indexOf("/")));
         }catch (Exception e){
             e.printStackTrace();
         }

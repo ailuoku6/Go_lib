@@ -6,6 +6,7 @@ import java.util.List;
 public class Guancang_page {
     private String imgUrl;
     private String book_name;
+    private String ISBN;
     private List<Guancang> guancangList;
 
     public Guancang_page(){
@@ -24,6 +25,10 @@ public class Guancang_page {
         return book_name;
     }
 
+    public String getISBN() {
+        return ISBN;
+    }
+
     public void setImgUrl(String imgUrl) {
         this.imgUrl = imgUrl;
     }
@@ -34,5 +39,9 @@ public class Guancang_page {
 
     public void setBook_name(String book_name) {
         this.book_name = book_name;
+    }
+
+    public void setISBN(String ISBN) {
+        this.ISBN = ISBN;
     }
 }

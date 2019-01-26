@@ -121,7 +121,7 @@ public class Book_detail extends AppCompatActivity {
     }
 
     private void UpdataGuancang(Guancang_page guancang_page){
-        UpdataImg(guancang_page.getImgUrl());
+        UpdataImg(guancang_page.getISBN());
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.guancang_items);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
@@ -132,13 +132,13 @@ public class Book_detail extends AppCompatActivity {
         collapsingToolbarLayout.setTitle(guancang_page.getBook_name());
     }
 
-    private void UpdataImg(final String url){
+    private void UpdataImg(final String ISBN){
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
                     byte[] data;
-                    data = new GetBook_img().updataImg(url);
+                    data = new GetBook_img().updataImg(ISBN);
                     Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
                     Message message = new Message();
                     message.what = UPDATAIMG;
@@ -159,6 +159,12 @@ public class Book_detail extends AppCompatActivity {
         if(bitmap!=null){
             imageView.setImageBitmap(bitmap);
             Bitmap blurBitmap = FastBlurUtil.toBlur(bitmap, 3);
+            collapsingToolbarLayout.setBackground(new BitmapDrawable(blurBitmap));
+        }else {
+            imageView.setDrawingCacheEnabled(true);
+            Bitmap bm = imageView.getDrawingCache();
+            imageView.setDrawingCacheEnabled(false);
+            Bitmap blurBitmap = FastBlurUtil.toBlur(bm,3);
             collapsingToolbarLayout.setBackground(new BitmapDrawable(blurBitmap));
         }
 
