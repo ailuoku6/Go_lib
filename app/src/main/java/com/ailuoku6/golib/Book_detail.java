@@ -4,10 +4,12 @@ import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
@@ -161,10 +163,7 @@ public class Book_detail extends AppCompatActivity {
             Bitmap blurBitmap = FastBlurUtil.toBlur(bitmap, 3);
             collapsingToolbarLayout.setBackground(new BitmapDrawable(blurBitmap));
         }else {
-            imageView.setDrawingCacheEnabled(true);
-            Bitmap bm = imageView.getDrawingCache();
-            imageView.setDrawingCacheEnabled(false);
-            Bitmap blurBitmap = FastBlurUtil.toBlur(bm,3);
+            Bitmap blurBitmap = FastBlurUtil.toBlur(BitmapFactory.decodeResource(getResources(),R.drawable.reading),3);
             collapsingToolbarLayout.setBackground(new BitmapDrawable(blurBitmap));
         }
 
