@@ -163,7 +163,7 @@ public class Book_detail extends AppCompatActivity {
             Bitmap blurBitmap = FastBlurUtil.toBlur(bitmap, 3);
             collapsingToolbarLayout.setBackground(new BitmapDrawable(blurBitmap));
         }else {
-            Bitmap blurBitmap = FastBlurUtil.toBlur(BitmapFactory.decodeResource(getResources(),R.drawable.reading),3);
+            Bitmap blurBitmap = FastBlurUtil.toBlur(BitmapFactory.decodeResource(getResources(),R.drawable.book),3);
             collapsingToolbarLayout.setBackground(new BitmapDrawable(blurBitmap));
         }
 

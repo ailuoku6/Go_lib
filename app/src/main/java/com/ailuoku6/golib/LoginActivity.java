@@ -145,11 +145,15 @@ public class LoginActivity extends AppCompatActivity {
                 try{
                     byte[] data;
                     data = patcha.FirstUpdataCha();
-                    Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
-                    Message message = new Message();
-                    message.what = UPDATA_PATCHA;
-                    message.obj = bitmap;
-                    handler.sendMessage(message);
+
+                    if (data!=null) {
+                        Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
+                        Message message = new Message();
+                        message.what = UPDATA_PATCHA;
+                        message.obj = bitmap;
+                        handler.sendMessage(message);
+                    }
+
                 }catch (IOException e){
                     e.printStackTrace();
                 }
@@ -168,11 +172,14 @@ public class LoginActivity extends AppCompatActivity {
                 try {
                     byte[] data;
                     data = patcha.updataCha(CookiesManage.cookies);
-                    Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
-                    Message message = new Message();
-                    message.what = UPDATA_PATCHA;
-                    message.obj = bitmap;
-                    handler.sendMessage(message);
+
+                    if (data!=null){
+                        Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
+                        Message message = new Message();
+                        message.what = UPDATA_PATCHA;
+                        message.obj = bitmap;
+                        handler.sendMessage(message);
+                    }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -212,5 +219,4 @@ public class LoginActivity extends AppCompatActivity {
         }
         editor.apply();
     }
-
 }

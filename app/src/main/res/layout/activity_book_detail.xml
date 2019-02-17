@@ -30,7 +30,7 @@
                 android:scaleType="fitXY"
                 android:adjustViewBounds="true"
                 app:layout_collapseMode="parallax"
-                android:src="@drawable/reading"
+                android:src="@drawable/book"
                 android:fitsSystemWindows="true"
                 android:layout_gravity="center"/>
 

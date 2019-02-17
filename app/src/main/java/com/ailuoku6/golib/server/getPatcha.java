@@ -33,6 +33,9 @@ public class getPatcha {
 
     public byte[] updataCha(Map<String,String> cookies) throws IOException {
         //Map<String,String> head = new HashMap<>();
+
+        if (cookies==null) return null;
+
         Connection connection = Jsoup.connect(url+"?"+Math.random());
         connection.timeout(6*1000)
                 .method(Connection.Method.GET);
