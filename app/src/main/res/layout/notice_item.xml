@@ -4,8 +4,8 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_margin="6dp"
-    app:cardCornerRadius="4dp"
-    app:contentPadding="6dp"
+    app:cardCornerRadius="5dp"
+    app:contentPadding="9dp"
     android:focusable="true"
     android:clickable="true"
     android:foreground="?android:attr/selectableItemBackground">
@@ -13,23 +13,30 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
         <android.support.v7.widget.AppCompatTextView
-            android:layout_width="0dp"
-            android:layout_weight="2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/date_text"
+            android:textSize="15dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_height="0.5dp"
+            android:background="#ACACA9"
+            />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/subtitle_text"
-            android:layout_marginLeft="8dp"
+            android:layout_marginLeft="5dp"
             android:textSize="20dp" />
-
-        <android.support.v7.widget.AppCompatTextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:id="@+id/date_text"
-            android:textSize="20dp"
-            android:gravity="center" />
 
     </LinearLayout>
 
