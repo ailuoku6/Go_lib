@@ -12,6 +12,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Message;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -37,6 +38,7 @@ public class Book_detail extends AppCompatActivity {
     private Toolbar toolbar;
     private CollapsingToolbarLayout collapsingToolbarLayout;
     private ProgressDialog progressDialog;
+    private CoordinatorLayout coordinatorLayout;
 
     private final int UPDATAIMG = 1;
     private final int UPDATAGUANCANG = 2;
@@ -71,8 +73,11 @@ public class Book_detail extends AppCompatActivity {
 
         toolbar = (Toolbar) findViewById(R.id.Book_detail_toolbar);
 
+        coordinatorLayout = (CoordinatorLayout) findViewById(R.id.myCoordinatorLayout);
+
         collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.Collapsing_toolbar);
-        collapsingToolbarLayout.setExpandedTitleTextColor(ColorStateList.valueOf(Color.GRAY));
+        //collapsingToolbarLayout.setExpandedTitleTextColor(ColorStateList.valueOf(Color.GRAY));
+        collapsingToolbarLayout.setExpandedTitleTextColor(ColorStateList.valueOf(Color.DKGRAY));
         collapsingToolbarLayout.setCollapsedTitleTextColor(Color.WHITE);
 
         imageView = (ImageView) findViewById(R.id.Book_img);
@@ -161,10 +166,12 @@ public class Book_detail extends AppCompatActivity {
         if(bitmap!=null){
             imageView.setImageBitmap(bitmap);
             Bitmap blurBitmap = FastBlurUtil.toBlur(bitmap, 3);
-            collapsingToolbarLayout.setBackground(new BitmapDrawable(blurBitmap));
+            //collapsingToolbarLayout.setBackground(new BitmapDrawable(blurBitmap));
+            coordinatorLayout.setBackground(new BitmapDrawable(blurBitmap));
         }else {
             Bitmap blurBitmap = FastBlurUtil.toBlur(BitmapFactory.decodeResource(getResources(),R.drawable.book),3);
-            collapsingToolbarLayout.setBackground(new BitmapDrawable(blurBitmap));
+            //collapsingToolbarLayout.setBackground(new BitmapDrawable(blurBitmap));
+            coordinatorLayout.setBackground(new BitmapDrawable(blurBitmap));
         }
 
         if(progressDialog.isShowing()){
