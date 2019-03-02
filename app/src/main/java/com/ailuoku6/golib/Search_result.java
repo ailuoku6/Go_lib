@@ -23,6 +23,7 @@ import com.ailuoku6.golib.Api.ApiUrl;
 import com.ailuoku6.golib.Model.Book;
 import com.ailuoku6.golib.Model.Search_pages;
 import com.ailuoku6.golib.server.Search_Book;
+import com.jude.swipbackhelper.SwipeBackHelper;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -66,6 +67,13 @@ public class Search_result extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SwipeBackHelper.onCreate(this);
+        SwipeBackHelper.getCurrentPage(this)//获取当前页面
+                .setSwipeBackEnable(true)//设置是否可滑动
+                .setSwipeEdge(100)//可滑动的范围。px。200表示为左边200px的屏幕
+                .setSwipeEdgePercent(0.1f)//可滑动的范围。百分比。0.2表示为左边20%的屏幕
+                .setSwipeSensitivity(0.5f)//对横向滑动手势的敏感程度。0为迟钝 1为敏感
+                .setClosePercent(0.8f);//触发关闭Activity百分比
         setContentView(R.layout.activity_search_result);
         Intent intent = getIntent();
         keyword = intent.getStringExtra("keyword");
@@ -120,6 +128,18 @@ public class Search_result extends AppCompatActivity {
 
         InitData(this,keyword);
 
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        SwipeBackHelper.onPostCreate(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        SwipeBackHelper.onDestroy(this);
     }
 
     @Override

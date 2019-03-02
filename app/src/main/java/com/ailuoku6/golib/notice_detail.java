@@ -14,6 +14,8 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
+import com.jude.swipbackhelper.SwipeBackHelper;
+
 public class notice_detail extends AppCompatActivity {
 
     private SlowlyProgressBar slowlyProgressBar;
@@ -22,6 +24,13 @@ public class notice_detail extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SwipeBackHelper.onCreate(this);
+        SwipeBackHelper.getCurrentPage(this)//获取当前页面
+                .setSwipeBackEnable(true)//设置是否可滑动
+                .setSwipeEdge(100)//可滑动的范围。px。200表示为左边200px的屏幕
+                .setSwipeEdgePercent(0.1f)//可滑动的范围。百分比。0.2表示为左边20%的屏幕
+                .setSwipeSensitivity(0.5f)//对横向滑动手势的敏感程度。0为迟钝 1为敏感
+                .setClosePercent(0.8f);//触发关闭Activity百分比
         setContentView(R.layout.activity_notice_detail);
         //ActionBar actionBar = getActionBar();
         toolbar = (Toolbar) findViewById(R.id.Notice_toolbar);
@@ -69,6 +78,18 @@ public class notice_detail extends AppCompatActivity {
         });
 
         webView.loadUrl(url);
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        SwipeBackHelper.onPostCreate(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        SwipeBackHelper.onDestroy(this);
     }
 
     @Override

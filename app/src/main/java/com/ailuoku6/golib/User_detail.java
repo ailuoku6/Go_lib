@@ -14,6 +14,7 @@ import com.ailuoku6.golib.Model.userInfo;
 import com.ailuoku6.golib.server.Get_User_info;
 import com.diegodobelo.expandingview.ExpandingItem;
 import com.diegodobelo.expandingview.ExpandingList;
+import com.jude.swipbackhelper.SwipeBackHelper;
 
 import java.io.IOException;
 
@@ -43,6 +44,13 @@ public class User_detail extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SwipeBackHelper.onCreate(this);
+        SwipeBackHelper.getCurrentPage(this)//获取当前页面
+                .setSwipeBackEnable(true)//设置是否可滑动
+                .setSwipeEdge(100)//可滑动的范围。px。200表示为左边200px的屏幕
+                .setSwipeEdgePercent(0.1f)//可滑动的范围。百分比。0.2表示为左边20%的屏幕
+                .setSwipeSensitivity(0.5f)//对横向滑动手势的敏感程度。0为迟钝 1为敏感
+                .setClosePercent(0.8f);//触发关闭Activity百分比
         setContentView(R.layout.activity_user_detail);
 
         expandingList = (ExpandingList) findViewById(R.id.expanding_list_main);
@@ -65,6 +73,18 @@ public class User_detail extends AppCompatActivity {
 
         InitData();
 
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        SwipeBackHelper.onPostCreate(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        SwipeBackHelper.onDestroy(this);
     }
 
     public void InitData(){

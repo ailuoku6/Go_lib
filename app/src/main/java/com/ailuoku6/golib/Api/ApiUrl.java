@@ -12,4 +12,6 @@ public class ApiUrl {
     public static String BOOK_HIST = "http://www.lib.wust.edu.cn:8780/reader/book_hist.php";
     public static String BOOK_LST = "http://www.lib.wust.edu.cn:8780/reader/book_lst.php";
     public static String DOUBANBOOK = "https://api.douban.com/v2/book/isbn/";
+    public static String CHECK_UPDATE = "https://raw.githubusercontent.com/ailuoku6/Go_lib/master/app/release/output.json";
+    public static String DOWNLOAD_URL = "https://raw.githubusercontent.com/ailuoku6/Go_lib/master/app/release/app-release.apk";
 }
