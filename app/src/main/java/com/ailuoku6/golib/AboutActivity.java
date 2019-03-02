@@ -1,6 +1,7 @@
 package com.ailuoku6.golib;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -19,6 +20,7 @@ import com.ailuoku6.golib.Api.ApiUrl;
 import com.ailuoku6.golib.Model.App_Version;
 import com.ailuoku6.golib.server.Version_Check;
 import com.eminayar.panter.PanterDialog;
+import com.eminayar.panter.enums.Animation;
 import com.jude.swipbackhelper.SwipeBackHelper;
 import com.jude.swipbackhelper.SwipeListener;
 
@@ -32,6 +34,7 @@ public class AboutActivity extends AppCompatActivity {
     private ImageButton imageButton;
     private TextView App_info;
     private RoundButton check_version;
+    private ProgressDialog progressDialog;
 
     private String App_name;
     private int versionCode = 1;
@@ -108,9 +111,15 @@ public class AboutActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage(getString(R.string.Check_updateTip));
+        progressDialog.setCancelable(false);
+
+
         check_version.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                progressDialog.show();
                 //显示进度条
                 Check_update();
             }
@@ -151,14 +160,20 @@ public class AboutActivity extends AppCompatActivity {
                 } catch (IOException e) {
                     e.printStackTrace();
                     //关闭进度条
+                    if (progressDialog.isShowing()){
+                        progressDialog.dismiss();
+                    }
+                    Snackbar.make(findViewById(R.id.About_Acti), "发生异常!", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
                 }
             }
         }).start();
     }
 
     private void haveNew(App_Version appVersion){
-        new PanterDialog(this)
-                .setHeaderBackground(R.drawable.pattern_bg_blue)
+        if (progressDialog.isShowing()) progressDialog.dismiss();
+        final PanterDialog dialog = new PanterDialog(this);
+                dialog.setHeaderBackground(R.drawable.pattern_bg_blue)
                 .setTitle("新版本")
                 .setPositive("更新", new View.OnClickListener() {
                     @Override
@@ -166,16 +181,18 @@ public class AboutActivity extends AppCompatActivity {
                         Uri uri = Uri.parse(ApiUrl.DOWNLOAD_URL);
                         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                         startActivity(intent);
+                        if (dialog.isShowing()) dialog.dismiss();
                     }
                 })// You can pass also View.OnClickListener as second param
                 .setNegative("不更新")
                 .setMessage(appVersion.VersionName)
+                .withAnimation(Animation.POP)
                 .isCancelable(true)
                 .show();
     }
 
     private void isNew(App_Version appVersion){
-        //App_info.setText(appVersion.VersionName+"("+appVersion.VersionCode+")");
+        if (progressDialog.isShowing()) progressDialog.dismiss();
         Snackbar.make(findViewById(R.id.About_Acti), "已经是最新版!", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
     }
