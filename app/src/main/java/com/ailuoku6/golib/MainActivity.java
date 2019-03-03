@@ -248,8 +248,9 @@ public class MainActivity extends AppCompatActivity
         String json = sp.getString("cookies", "");
         String name = sp.getString("name","");
         Gson gson = new Gson();
-        if(CookiesManage.cookies!=null&&json != ""&&name!=""&&name!=null){
+        if(CookiesManage.cookies!=null&&json!=""&&name!=""){
             CookiesManage.cookies = gson.fromJson(json, CookiesManage.cookies.getClass());
+            Log.d("cookies", "ReadData: "+CookiesManage.cookies);
             CookiesManage.IsLoged = true;
             userInfo.userName = name;
         }else {

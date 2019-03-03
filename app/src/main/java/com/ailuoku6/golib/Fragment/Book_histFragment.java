@@ -12,6 +12,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,8 @@ import com.ailuoku6.golib.server.Get_Book_hist;
 
 import java.io.IOException;
 import java.util.List;
+
+import static android.support.constraint.Constraints.TAG;
 
 
 public class Book_histFragment extends Fragment {
@@ -61,12 +64,15 @@ public class Book_histFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d(TAG, "onCreate: ");
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
+        Log.d(TAG, "onCreateView: ");
 
         View view = inflater.inflate(R.layout.fragment_book_hist, container, false);
         mview = view;
@@ -77,6 +83,7 @@ public class Book_histFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        Log.d(TAG, "onViewCreated: ");
         progressDialog = new ProgressDialog(view.getContext());
         progressDialog.setMessage(getString(R.string.loading));
         progressDialog.setCancelable(false);

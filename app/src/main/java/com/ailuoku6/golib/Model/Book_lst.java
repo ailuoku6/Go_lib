@@ -7,6 +7,8 @@ public class Book_lst {
     private String bar_code;
     private String guancangdi;
     private String xujieliang;
+    private String check;
+
 
     public String getReturnDate() {
         return returnDate;
@@ -30,6 +32,10 @@ public class Book_lst {
 
     public String getXujieliang() {
         return xujieliang;
+    }
+
+    public String getCheck() {
+        return check;
     }
 
     public void setReturnDate(String returnDate) {
@@ -56,4 +62,7 @@ public class Book_lst {
         this.xujieliang = xujieliang;
     }
 
+    public void setCheck(String check) {
+        this.check = check;
+    }
 }

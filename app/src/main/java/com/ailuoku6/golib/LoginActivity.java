@@ -132,7 +132,10 @@ public class LoginActivity extends AppCompatActivity {
         super.onStart();
         try {
             InitData();
+            ReadData();
         } catch (InterruptedException e) {
+            e.printStackTrace();
+        }catch (Exception e){
             e.printStackTrace();
         }
     }
@@ -228,9 +231,17 @@ public class LoginActivity extends AppCompatActivity {
             String json = gson.toJson(CookiesManage.cookies);
             editor.putString("cookies", json);
             editor.putString("name", userInfo.userName);
+            editor.putString("user_name",user_name.getText().toString());
+            editor.putString("password",password.getText().toString());
         } catch (Exception e) {
             e.printStackTrace();
         }
         editor.apply();
+    }
+
+    public void ReadData(){
+        SharedPreferences sp = this.getSharedPreferences("data", Context.MODE_PRIVATE);
+        user_name.setText(sp.getString("user_name",""));
+        password.setText(sp.getString("password",""));
     }
 }

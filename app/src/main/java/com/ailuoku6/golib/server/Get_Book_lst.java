@@ -39,13 +39,17 @@ public class Get_Book_lst {
                 Elements tds = trs.get(i).select("td");
                 Book_lst book_lst = new Book_lst();
 
-                book_lst.setBar_code(tds.get(0).text());
+                //book_lst.setBar_code(tds.get(0).text());
                 book_lst.setName_lst(tds.get(1).text());
                 book_lst.setBorrowDate("借阅日期:"+tds.get(2).text());
                 book_lst.setReturnDate("应还日期:"+tds.get(3).text());
                 book_lst.setXujieliang(tds.get(4).text());
                 book_lst.setGuancangdi(tds.get(5).text());
-
+                String check = tds.get(7).select("input").attr("onclick");
+                //book_lst.setCheck(check.substring(check.indexOf("(")+1,check.indexOf(")")).replace("'",""));
+                String[] params = check.substring(check.indexOf("(")+1,check.indexOf(")")).replace("'","").replace(" ","").split(",");
+                book_lst.setBar_code(params[0]);
+                book_lst.setCheck(params[1]);
                 book_lsts.add(book_lst);
             }
 
