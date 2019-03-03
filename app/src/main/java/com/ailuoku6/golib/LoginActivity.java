@@ -106,7 +106,7 @@ public class LoginActivity extends AppCompatActivity {
                             message.what = JUDGE_STATE;
                             message.obj = loginState;
                             handler.sendMessage(message);
-                        } catch (IOException e) {
+                        } catch (Exception e) {
                             e.printStackTrace();
                             if(progressDialog.isShowing()){
                                 progressDialog.dismiss();
@@ -168,7 +168,7 @@ public class LoginActivity extends AppCompatActivity {
                         handler.sendMessage(message);
                     }
 
-                }catch (IOException e){
+                }catch (Exception e){
                     e.printStackTrace();
                 }
             }
@@ -194,7 +194,7 @@ public class LoginActivity extends AppCompatActivity {
                         message.obj = bitmap;
                         handler.sendMessage(message);
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }

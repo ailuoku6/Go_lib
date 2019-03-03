@@ -157,7 +157,7 @@ public class AboutActivity extends AppCompatActivity {
                         message.obj = appVersion;
                         handler.sendMessage(message);
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                     //关闭进度条
                     if (progressDialog.isShowing()){

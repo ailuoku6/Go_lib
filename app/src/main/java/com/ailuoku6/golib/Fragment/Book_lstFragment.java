@@ -115,7 +115,7 @@ public class Book_lstFragment extends Fragment {
 
                     handler.sendMessage(message);
 
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                     if (progressDialog.isShowing()){
                         progressDialog.dismiss();

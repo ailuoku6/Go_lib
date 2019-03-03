@@ -100,7 +100,7 @@ public class Book_histFragment extends Fragment {
                     message.what = SHOWBOOK_HIST;
                     message.obj = book_hists;
                     handler.sendMessage(message);
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                     if(progressDialog.isShowing()){
                         progressDialog.dismiss();

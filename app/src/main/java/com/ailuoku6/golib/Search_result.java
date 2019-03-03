@@ -160,7 +160,7 @@ public class Search_result extends AppCompatActivity {
                     message.what = SHOWRESULT;
                     message.obj = searchPages;
                     handler.sendMessage(message);
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                     if(progressDialog.isShowing()){
                         progressDialog.dismiss();
@@ -180,7 +180,7 @@ public class Search_result extends AppCompatActivity {
                     message.what = SHOWRESULT;
                     message.obj = searchBook.GetpageByUrl(ApiUrl.SEARCH_BOOK+url);
                     handler.sendMessage(message);
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                     if(progressDialog.isShowing()){
                         progressDialog.dismiss();

@@ -98,7 +98,7 @@ public class User_detail extends AppCompatActivity {
                     message.what = GETUSERINFO;
                     message.obj = userinfo;
                     handler.sendMessage(message);
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                     if (progressDialog.isShowing()){
                         progressDialog.dismiss();

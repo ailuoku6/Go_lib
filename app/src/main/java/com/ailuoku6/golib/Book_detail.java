@@ -171,7 +171,7 @@ public class Book_detail extends AppCompatActivity {
                     message.what = UPDATAIMG;
                     message.obj = bitmap;
                     handler.sendMessage(message);
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                     if(progressDialog.isShowing()){
                         progressDialog.dismiss();
