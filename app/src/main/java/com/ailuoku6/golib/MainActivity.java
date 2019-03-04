@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -28,9 +29,11 @@ import com.ailuoku6.golib.Adapter.NoticeAdapter;
 import com.ailuoku6.golib.Model.Notice;
 import com.ailuoku6.golib.Model.userInfo;
 import com.ailuoku6.golib.server.NoticeServer;
+import com.ailuoku6.golib.server.Test_Cookies;
 import com.google.gson.Gson;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,6 +51,7 @@ public class MainActivity extends AppCompatActivity
     private ProgressDialog progressDialog;
 
     private final int SHOENOTICE = 1;
+    private final int UPDATECOOKIESSTATE = 2;
     private List<Notice> noticeList = new ArrayList<>();
 
     @SuppressLint("HandlerLeak")
@@ -58,6 +62,9 @@ public class MainActivity extends AppCompatActivity
             switch (msg.what){
                 case SHOENOTICE:
                     showNotice();
+                    break;
+                case UPDATECOOKIESSTATE:
+                    UpdateCookiesState((boolean) msg.obj);
                     break;
                 default:break;
             }
@@ -138,15 +145,22 @@ public class MainActivity extends AppCompatActivity
         progressDialog.show();
         initData();
 
+        ReadData();
+
     }
 
     @Override
     protected void onStart() {
+        Log.d("cookies", "onStart: ");
         super.onStart();
-        ReadData();
-        if(CookiesManage.IsLoged){
-            name.setText(userInfo.userName);
-        }
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Log.d("cookies", "onRestart: ");
+//        if (CookiesManage.IsLoged) name.setText(userInfo.userName);
+//        else name.setText(getString(R.string.unlogin));
     }
 
     @Override
@@ -181,7 +195,8 @@ public class MainActivity extends AppCompatActivity
         if(id!=R.id.nav_send&&!CookiesManage.IsLoged){
             Intent intent = new Intent("com.ailuoku6.golib.LOGIN");
             intent.addCategory("android.intent.category.DEFAULT");
-            startActivity(intent);
+            startActivityForResult(intent,1);
+            //startActivity(intent);
         }else if (id == R.id.nav_camera) {
             // Handle the camera action
             Intent intent = new Intent("com.ailuoku6.golib.USERDETAIL");
@@ -195,7 +210,8 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_share) {
             Intent intent = new Intent("com.ailuoku6.golib.LOGIN");
             intent.addCategory("android.intent.category.DEFAULT");
-            startActivity(intent);
+            startActivityForResult(intent,1);
+            //startActivity(intent);
         } else if (id == R.id.nav_send) {
             Intent intent = new Intent("com.ailuoku6.golib.ABOUT");
             intent.addCategory("android.intent.category.DEFAULT");
@@ -205,6 +221,14 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.d("cookies", "onActivityResult: ");
+        if (resultCode==1) name.setText(data.getStringExtra("name"));
+        else name.setText(getString(R.string.unlogin));
     }
 
     private void initData() {
@@ -246,17 +270,57 @@ public class MainActivity extends AppCompatActivity
     public void ReadData(){
         SharedPreferences sp = this.getSharedPreferences("data", Context.MODE_PRIVATE);
         String json = sp.getString("cookies", "");
-        String name = sp.getString("name","");
+        final String name = sp.getString("name","");
         Gson gson = new Gson();
         if(CookiesManage.cookies!=null&&json!=""&&name!=""){
             CookiesManage.cookies = gson.fromJson(json, CookiesManage.cookies.getClass());
             Log.d("cookies", "ReadData: "+CookiesManage.cookies);
-            CookiesManage.IsLoged = true;
+
             userInfo.userName = name;
+
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {//测试cookies是否有效
+//                        if (Test_Cookies.Test(CookiesManage.cookies)){
+//                            CookiesManage.IsLoged = true;
+//                            userInfo.userName = name;
+//                        }else {
+//                            CookiesManage.cookies = null;
+//                            CookiesManage.IsLoged = false;
+//                            userInfo.userName = "未登录";
+//                        }
+
+                        Message message = new Message();
+                        message.what = UPDATECOOKIESSTATE;
+                        message.obj = Test_Cookies.Test(CookiesManage.cookies);
+
+                        handler.sendMessage(message);
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }).start();
+
         }else {
             CookiesManage.cookies = null;
             CookiesManage.IsLoged = false;
-            userInfo.userName = "未登录";
+            userInfo.userName = getString(R.string.unlogin);
+        }
+    }
+
+    public void UpdateCookiesState(boolean b){
+        Log.d("cookies", "UpdateCookiesState: "+b);
+        if (b){
+            CookiesManage.IsLoged = true;
+            name.setText(userInfo.userName);
+        }else {
+            CookiesManage.cookies = null;
+            CookiesManage.IsLoged = false;
+            userInfo.userName = getString(R.string.unlogin);
+            name.setText(getString(R.string.unlogin));
+            //记得清除本地缓存的cookies
         }
     }
 

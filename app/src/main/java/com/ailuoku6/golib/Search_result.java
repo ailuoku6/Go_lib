@@ -145,6 +145,7 @@ public class Search_result extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        Log.d("cookies", "search result onStart: ");
     }
 
     private void InitData(final Context context, final String keyword){

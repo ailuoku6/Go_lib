@@ -3,6 +3,7 @@ package com.ailuoku6.golib;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -12,6 +13,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -89,6 +91,8 @@ public class LoginActivity extends AppCompatActivity {
         progressDialog.setMessage(getString(R.string.loading));
         progressDialog.setCancelable(false);
 
+        CookiesManage.IsLoged = false;
+
         login_ = new Login();
 
         login.setOnClickListener(new View.OnClickListener() {
@@ -148,6 +152,10 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
+//        Intent intent = new Intent();
+//        //intent.putExtra("name",userInfo.userName);
+//        setResult(0,intent);
+        Log.d("cookies", "login onDestroy: ");
         super.onDestroy();
         SwipeBackHelper.onDestroy(this);
     }
@@ -214,6 +222,9 @@ public class LoginActivity extends AppCompatActivity {
                     .setAction("Action", null).show();
             CookiesManage.IsLoged = true;
             SaveData();
+            Intent intent = new Intent();
+            intent.putExtra("name",userInfo.userName);
+            setResult(1,intent);
             finish();
         }else {
             Snackbar.make(findViewById(R.id.LOGIN_ACTIVITY), loginState.getERRORINFO(), Snackbar.LENGTH_LONG)
@@ -230,7 +241,7 @@ public class LoginActivity extends AppCompatActivity {
             Gson gson = new Gson();
             String json = gson.toJson(CookiesManage.cookies);
             editor.putString("cookies", json);
-            editor.putString("name", userInfo.userName);
+            editor.putString("name", userInfo.userName);//在做Login的时候已经给userInfo.userName赋值
             editor.putString("user_name",user_name.getText().toString());
             editor.putString("password",password.getText().toString());
         } catch (Exception e) {

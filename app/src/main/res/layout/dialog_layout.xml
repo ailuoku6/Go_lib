@@ -13,26 +13,55 @@
         android:text="请输入验证码"
         android:textSize="20dp"/>
 
-    <ImageView
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:adjustViewBounds="true"
-        android:scaleType="fitXY"
-        android:id="@+id/yanzhengma"/>
-
-    <android.support.design.widget.TextInputLayout
+    <android.support.v7.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColorHint="#c5c5c5"
-        android:id="@+id/vercod_wrap">
+        android:orientation="horizontal"
+        android:id="@+id/vercode_rrr">
 
-        <android.support.v7.widget.AppCompatEditText
-            android:layout_width="match_parent"
+        <android.support.v7.widget.AppCompatImageView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:id="@+id/yanzhengma"
+            android:layout_weight="1"/>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:id="@+id/vercod_input"
-            android:hint="验证码"/>
+            android:textColorHint="#c5c5c5"
+            android:id="@+id/vercod_wrap"
+            android:layout_weight="2">
 
-    </android.support.design.widget.TextInputLayout>
+            <android.support.v7.widget.AppCompatEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/vercod_input"
+                android:hint="验证码"/>
+
+        </android.support.design.widget.TextInputLayout>
+
+    </android.support.v7.widget.LinearLayoutCompat>
+
+    <!--<ImageView-->
+        <!--android:layout_width="100dp"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:adjustViewBounds="true"-->
+        <!--android:scaleType="fitXY"-->
+        <!--android:id="@+id/yanzhengma"/>-->
+
+    <!--<android.support.design.widget.TextInputLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:textColorHint="#c5c5c5"-->
+        <!--android:id="@+id/vercod_wrap">-->
+
+        <!--<android.support.v7.widget.AppCompatEditText-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:id="@+id/vercod_input"-->
+            <!--android:hint="验证码"/>-->
+
+    <!--</android.support.design.widget.TextInputLayout>-->
 
     <android.support.v7.widget.AppCompatButton
         android:layout_width="wrap_content"
