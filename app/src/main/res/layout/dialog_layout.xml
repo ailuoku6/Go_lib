@@ -63,11 +63,23 @@
 
     <!--</android.support.design.widget.TextInputLayout>-->
 
-    <android.support.v7.widget.AppCompatButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <!--<android.support.v7.widget.AppCompatButton-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="right"-->
+        <!--android:id="@+id/renew"-->
+        <!--android:text="续借"/>-->
+
+    <ezy.ui.view.RoundButton
+        style="@style/RoundButton.Two"
+        android:width="80dp"
+        android:text="续借"
+        android:textColor="#ffffff"
+        app:btnCornerRadius="20dp"
+        app:btnPressedRatio="1.5"
+        app:btnStrokeColor="@color/colorAccent"
+        app:btnSolidColor="@color/colorAccent"
         android:layout_gravity="right"
-        android:id="@+id/renew"
-        android:text="续借"/>
+        android:id="@+id/renew"/>
 
 </LinearLayout>

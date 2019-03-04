@@ -44,7 +44,8 @@ public class Book_lstAdapter extends RecyclerView.Adapter<Book_lstAdapter.ViewHo
     private Dialog mydialog;
     private EditText vercode;
     private ImageView imageView;
-    private Button button;
+    //private Button button;
+    private RoundButton button;
     private Context mycontext;
 
     private final int UPDATEIMG = 1;
@@ -142,7 +143,7 @@ public class Book_lstAdapter extends RecyclerView.Adapter<Book_lstAdapter.ViewHo
 
         vercode = (EditText) view.findViewById(R.id.vercod_input);
         imageView = (ImageView) view.findViewById(R.id.yanzhengma);
-        button = (Button) view.findViewById(R.id.renew);
+        button = (RoundButton) view.findViewById(R.id.renew);
 
         UpdateImg();
 
