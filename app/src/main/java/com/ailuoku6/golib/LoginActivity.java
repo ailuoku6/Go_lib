@@ -92,6 +92,7 @@ public class LoginActivity extends AppCompatActivity {
         progressDialog.setCancelable(false);
 
         CookiesManage.IsLoged = false;
+        cleanCookies();
 
         login_ = new Login();
 
@@ -232,6 +233,17 @@ public class LoginActivity extends AppCompatActivity {
         }
 //        Snackbar.make(this, loginState.getERRORINFO(), Snackbar.LENGTH_LONG)
 //                    .setAction("Action", null).show();
+    }
+
+    public void cleanCookies(){
+        SharedPreferences sp = this.getSharedPreferences("data", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        try {
+            editor.remove("cookies");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        editor.apply();
     }
 
     public void SaveData(){
