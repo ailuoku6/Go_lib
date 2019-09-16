@@ -24,6 +24,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ailuoku6.golib.Adapter.NoticeAdapter;
 import com.ailuoku6.golib.Model.Notice;
@@ -196,12 +197,14 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent("com.ailuoku6.golib.LOGIN");
             intent.addCategory("android.intent.category.DEFAULT");
             startActivityForResult(intent,1);
+            Log.d("main", "onNavigationItemSelected: ");
             //startActivity(intent);
         }else if (id == R.id.nav_camera) {
             // Handle the camera action
             Intent intent = new Intent("com.ailuoku6.golib.USERDETAIL");
             intent.addCategory("android.intent.category.DEFAULT");
             startActivity(intent);
+            Toast.makeText(this, "run here", Toast.LENGTH_SHORT).show();
 
         } else if (id == R.id.nav_gallery) {
             Intent intent = new Intent("com.ailuoku6.golib.MYBORROW");

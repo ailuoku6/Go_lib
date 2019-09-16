@@ -17,6 +17,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.support.v7.widget.Toolbar;
@@ -160,6 +161,7 @@ public class Book_detail extends AppCompatActivity {
     }
 
     private void UpdataImg(final String ISBN){
+        Log.d("img", "UpdataImg: "+ISBN);
         new Thread(new Runnable() {
             @Override
             public void run() {

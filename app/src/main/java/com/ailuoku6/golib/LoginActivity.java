@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.ailuoku6.golib.Model.Login_State;
 import com.ailuoku6.golib.Model.userInfo;
@@ -64,6 +65,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d("main", "onCreate: ");
         SwipeBackHelper.onCreate(this);
         SwipeBackHelper.getCurrentPage(this)//获取当前页面
                 .setSwipeBackEnable(true)//设置是否可滑动
@@ -226,6 +228,7 @@ public class LoginActivity extends AppCompatActivity {
             Intent intent = new Intent();
             intent.putExtra("name",userInfo.userName);
             setResult(1,intent);
+            Log.d("cookies", "Judge_state: OK");
             finish();
         }else {
             Snackbar.make(findViewById(R.id.LOGIN_ACTIVITY), loginState.getERRORINFO(), Snackbar.LENGTH_LONG)
