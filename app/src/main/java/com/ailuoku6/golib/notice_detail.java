@@ -68,6 +68,7 @@ public class notice_detail extends AppCompatActivity {
         webSettings.setLoadWithOverviewMode(true);
         webSettings.setLoadWithOverviewMode(true);
         webSettings.setAllowFileAccess(true);
+        webView.setWebChromeClient(new WebChromeClient());
         Intent intent = getIntent();
         String url = intent.getStringExtra("url");
 
@@ -77,8 +78,24 @@ public class notice_detail extends AppCompatActivity {
                 slowlyProgressBar.onProgressStart();
             }
 
+//            @Override
+//            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+//                return true;
+//            }
             @Override
-            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                view.loadUrl(url);
+                view.setDownloadListener(new DownloadListener() {
+
+                    @Override
+                    public void onDownloadStart(String s, String s1, String s2, String s3, long l) {
+//                        Log.d(TAG, s);
+                        Intent intent = new Intent(Intent.ACTION_VIEW);
+                        intent.addCategory(Intent.CATEGORY_BROWSABLE);
+                        intent.setData(Uri.parse(s));
+                        startActivity(intent);
+                    }
+                });
                 return true;
             }
         });
