@@ -3,23 +3,35 @@ package com.ailuoku6.golib;
 import android.app.ActionBar;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.DownloadListener;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
+import com.ailuoku6.golib.Util.HtmlTransformer;
 import com.jude.swipbackhelper.SwipeBackHelper;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+
+import java.io.IOException;
 
 public class notice_detail extends AppCompatActivity {
 
     private SlowlyProgressBar slowlyProgressBar;
     private Toolbar toolbar;
+    private WebView webView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,10 +58,16 @@ public class notice_detail extends AppCompatActivity {
 
         slowlyProgressBar = new SlowlyProgressBar((ProgressBar) findViewById(R.id.ProgressBar));
 
-        WebView webView = (WebView) findViewById(R.id.web_detail);
-        webView.getSettings().setJavaScriptEnabled(true);
-        webView.getSettings().setSupportZoom(true);
-        webView.getSettings().setBuiltInZoomControls(true);
+        webView = (WebView) findViewById(R.id.web_detail);
+        WebSettings webSettings = webView.getSettings();
+        webSettings.setJavaScriptEnabled(true);
+        webSettings.setAllowUniversalAccessFromFileURLs(true);
+        webSettings.setAllowFileAccessFromFileURLs(true);
+        webSettings.setLoadsImagesAutomatically(true);
+        webSettings.setUseWideViewPort(true);
+        webSettings.setLoadWithOverviewMode(true);
+        webSettings.setLoadWithOverviewMode(true);
+        webSettings.setAllowFileAccess(true);
         Intent intent = getIntent();
         String url = intent.getStringExtra("url");
 
@@ -77,7 +95,8 @@ public class notice_detail extends AppCompatActivity {
             }
         });
 
-        webView.loadUrl(url);
+//        webView.loadUrl(url);
+        new LoadPageAsyncTask().execute(url);
     }
 
     @Override
@@ -110,5 +129,40 @@ public class notice_detail extends AppCompatActivity {
             slowlyProgressBar.destroy();
             slowlyProgressBar = null;
         }
+    }
+
+    private class LoadPageAsyncTask extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected void onPostExecute(String s) {
+
+            webView.loadData(s, "text/html; charset=UTF-8", null);
+        }
+
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+
+            String content = null;
+
+            try {
+                Document document = Jsoup.connect(strings[0]).get();
+                content = document.getElementById("content").select("tbody").select("table").first().html();
+//                Log.d(TAG, content);
+                content = "<table>" + content + "</table>";
+                content = HtmlTransformer.START_LIBRARY_NOTIFICATION + content + HtmlTransformer.END_LIBRARY_NOTIFICATION;
+
+//                Log.d(TAG, content);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return content;
+        }
+
     }
 }
